@@ -10,7 +10,7 @@
     <meta name="keywords"  content="臧宏宇, Zhy, zanghyu, eaves, @白蜡下的搬运工, 臧宏宇的博客, ZhY Blog, 博客, 个人网站, 互联网,机器学习，人工智能">
     <meta name="theme-color" content="#000000">
     
-    <title>臧宏宇的博客 | ZhY Blog</title>
+    <title>Hilltop算法 - 臧宏宇的博客 | ZhY Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="canonical" href="http://localhost:4000/2017/03/08/hilltop/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -153,149 +153,170 @@
 </script>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-hilltop.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-hilltop.jpg')
+    }
+
+    
+    header.intro-header .header-mask{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0, 0.3);
+    }
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>ZhY Blog</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">东搞搞西搞搞的程序员</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#推荐算法" title="推荐算法">推荐算法</a>
+                        
+                    </div>
+                    <h1>Hilltop算法</h1>
+                    
+                    
+                    <h2 class="subheading">Hilltop算法介绍及实现</h2>
+                    
+                    <span class="meta">Posted by ZhY on March 8, 2017</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="hilltop是什么">hilltop是什么</h2>
+
+<p>上一篇博文介绍了google的[PageRank算法][1],而这篇博文将会介绍一个超链接相关的分析算法————hilltop算法。HillTop是一种查询相关性链接分析算法，克服了的PageRank的查询无关性的缺点。简单的说HillTop算法是针对热门查询关键词来对搜索结果重新排序的一种算法。即通过HillTop算法，我们可以得出与查询的关键词关联度最高的搜索结果，让我们可以更准确的获取查询结果。</p>
+
+<h2 id="前提思想">前提思想</h2>
+
+<p>hilltop有两个基础的思想：</p>
+
+<p>一、子集传播模型</p>
+
+<p>子集传播模型有一个核心思想：主题相关网页之间的链接关系对权重所占的贡献值大于主题不相关网页之间的链接关系。即HTML页面中的超链接标签——a标签中的内容所指向的网页与该标签的关联度越大，则他们所占的权重越大。
+<img src="/img/in-post/hilltop-arg/basic-01.png" alt="" />
+如图所示，这两个标签都指向了另外的H1标签，显然第一个例子中两个标签的关联度大于第二个例子中两个标签的关联度（第一个例子中二者都包含了关键词”计算机”，而第二个例子中二者并没有明显的联系）。</p>
+
+<p>二、通过页面入链的数量和质量决定排序权重</p>
+
+<p>页面入链的质量越高、数量越多，则该页面所获得的权重更大，就更有机会排在前面。
+<img src="/img/in-post/hilltop-arg/basic-02.png" alt="" />
+如果我的网站同时被百度、网易、腾讯等收录，那它就有很大几率排在最前的位置了。</p>
+
+<h2 id="定义与概念">定义与概念</h2>
+
+<p>一、非从属组织页面</p>
+
+<p>什么是从属组织页面呢？从属组织页面就是两个页面可能具有很强的从属关系，如果两个网站具有很强的从属关系，可能会影响对于其他网站权重的计算。举个例子，比如我的母亲喜欢吃西瓜，即使我本身对于西瓜不是很感冒，但是在与我母亲在一起时，我也会表现出喜欢吃西瓜。因此只有当两个页面从属度不高时，才能保证他们确实是代表的自己的观点，而非是属主的观点。
+<img src="/img/in-post/hilltop-arg/concept-01.jpg" alt="" />
+从属组织页面有以下两个特征，满足任意一个则会被认定为是从属组织页面：
+特征1：主机IP地址的前三个网段相同，如：118.218.75.19 和 118.218.75.140
+特征2：网络域名中的主域名相同，如：www.baidu.com 和 www.baidu.com.cn</p>
+
+<p>而若两个页面不包含这两个特征，则该两页面是非从属组织页面。</p>
+
+<p>二、专家页面</p>
+
+<p>专家页面即所有页面中最具有权威的一部分页面，他们的影响力远大于普通页面。而专家页面需要符合以下全部的两个特征：
+特征1：这些页面链接所指向的页面相互之间是非从属组织页面
+特征2：被该页面所指向的页面与该页面的主题相近</p>
+
+<p>三、目标页面集合</p>
+
+<p>在该算法中，整个互联网中的所有页面被划分为两个子集： 专家页面集合 和 其他页面集合。</p>
+
+<hr />
+
+
+
+                <hr style="visibility: hidden;">
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/02/09/first-article/" data-toggle="tooltip" data-placement="top" title="第一篇博文">
+                        Previous<br>
+                        <span>第一篇博文</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
         
 
-<!-- USE SIDEBAR -->
-    <!-- PostList Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                postlist-container
-            ">
-    			
-<div class="post-preview">
-    <a href="/2017/03/08/hilltop/">
-        <h2 class="post-title">
-            Hilltop算法
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Hilltop算法介绍及实现
-        </h3>
-        
-        <div class="post-content-preview">
-            hilltop是什么
-
-上一篇博文介绍了google的[PageRank算法][1],而这篇博文将会介绍一个超链接相关的分析算法————hilltop算法。HillTop是一种查询相关性链接分析算法，克服了的PageRank的查询无关性的缺点。简单的说HillTop算法是针对热门查询关键词来对搜索结果重新排序的一种算法。即通过HillTop算法，我们可以得出与查询的关键词关联度最高的搜索结果...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by ZhY on March 8, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/02/09/first-article/">
-        <h2 class="post-title">
-            第一篇博文
-        </h2>
-        
-        <h3 class="post-subtitle">
-            打开了新世界的大门
-        </h3>
-        
-        <div class="post-content-preview">
-            ##缘由
-大学之后就一直想做一个技术性博客，最开始选择的是csdn，想在里面写一些自己的随笔和遇到的各种坑，但是无奈csdn的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。
-
-后来还是因为看到了同学@Tao的自己搭建的博客，才觉得好像自己搭一个更方便一点，而且可以完全按照自己喜欢的来设计，也不用受限于那些博客网站的对于格式的要...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by ZhY on February 9, 2017
-    </p>
-</div>
-<hr>
-
-
-<!-- Pager -->
-
-
-    		</div>
     <!-- Sidebar Container -->
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
-                    </div>
+        				
+        			</div>
                 </section>
                 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                        
-                            <p>搞一搞算法，研究一下机器学习|深度学习，<br>享受新知识带来的兴奋感</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/白蜡下的搬运工">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/zanghyu">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </div>
-                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -308,10 +329,53 @@
                     
                 </ul>
                 
-    		</div>
-        
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
 
 
     <!-- Footer -->
@@ -453,6 +517,50 @@
 
 
 <!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
 
 
 
