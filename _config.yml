@@ -94,5 +94,8 @@ friends: [
     {
         title: "Hux Blog",
         href: "http://huangxuan.me/"
+    },{
+	title: "Tao Blog",
+	href: "http://paradisehell.org/"
     }
 ]
