@@ -2,7 +2,7 @@
 layout:     post
 title:      "第一篇博文"
 subtitle:   "打开了新世界的大门"
-date:       2017-02-09 12:00:00
+date:       2017-03-08 12:00:00
 author:     "ZhY"
 header-img: "img/post-bg-first-article.jpg"
 header-mask: 0.3
