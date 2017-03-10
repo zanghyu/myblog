@@ -59,7 +59,7 @@ hilltop有两个基础的思想：
 
 ## 算法核心步骤
 
-![](/img/in-post/hilltop-arg/agr-01.jpg)
+![](/img/in-post/hilltop-arg/alg-01.jpg)
 *算法流程如图所示*
 
 1.构建专家页面集合
@@ -105,7 +105,7 @@ hilltop有两个基础的思想：
     3)“专家页面”传递给“目标页面”的分值为：E*T，E为专家页面本身在第一阶段计算得到的相关得分，T为b步骤计算的分值
 
   **例如:**
-![](/img/in-post/hilltop-arg/arg-02.jpg)
+![](/img/in-post/hilltop-arg/alg-02.jpg)
 
     整个页面的关键片段集合：{title,h1,h1中计算机，h1中操作系统,操作系统}
     用户查询“计算机”，若此时页面已算出分值S。
