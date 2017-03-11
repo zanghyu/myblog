@@ -104,8 +104,8 @@ header-img: "img/about-bg.jpg"
 <div class="comment">
     <!-- This id is used for indexing my loss comments forcedly -->
     <div class="ds-thread"
-    {% if site.duoshuo_username == "huxblog" %}
-        data-thread-id="1187623191091085319"
+    {% if site.duoshuo_username == "Eaves" %}
+        data-thread-key="97abbe7bb74c2dca92622816c7bfcefb"
     {% else %}
     <!-- U can just use this key generated to index comments at page about -->
         data-thread-key="{{site.duoshuo_username}}/about"
@@ -122,15 +122,15 @@ header-img: "img/about-bg.jpg"
     var _user = '{{site.duoshuo_username}}';
 
     // duoshuo comment query.
-    var duoshuoQuery = {short_name: _user };
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
+   var duoshuoQuery = {short_name:"hylearning"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
 </script>
 <!-- 多说公共JS代码 end -->
 {% endif %}

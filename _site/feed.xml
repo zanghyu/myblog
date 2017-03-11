@@ -5,8 +5,8 @@
     <description>关于人工智能与机器学习 | 臧宏宇，AI designer, AI developer | 这里是 @eaves臧宏宇 的个人博客。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 09 Mar 2017 15:09:20 +0800</pubDate>
-    <lastBuildDate>Thu, 09 Mar 2017 15:09:20 +0800</lastBuildDate>
+    <pubDate>Sat, 11 Mar 2017 11:04:18 +0800</pubDate>
+    <lastBuildDate>Sat, 11 Mar 2017 11:04:18 +0800</lastBuildDate>
     <generator>Jekyll v3.4.1</generator>
     
       <item>
@@ -22,43 +22,121 @@
 &lt;p&gt;一、子集传播模型&lt;/p&gt;
 
 &lt;p&gt;子集传播模型有一个核心思想：主题相关网页之间的链接关系对权重所占的贡献值大于主题不相关网页之间的链接关系。即HTML页面中的超链接标签——a标签中的内容所指向的网页与该标签的关联度越大，则他们所占的权重越大。
-&lt;img src=&quot;/img/in-post/hilltop-arg/basic-01.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/img/in-post/hilltop-arg/basic-01.jpg&quot; alt=&quot;&quot; /&gt;
 如图所示，这两个标签都指向了另外的H1标签，显然第一个例子中两个标签的关联度大于第二个例子中两个标签的关联度（第一个例子中二者都包含了关键词”计算机”，而第二个例子中二者并没有明显的联系）。&lt;/p&gt;
 
 &lt;p&gt;二、通过页面入链的数量和质量决定排序权重&lt;/p&gt;
 
 &lt;p&gt;页面入链的质量越高、数量越多，则该页面所获得的权重更大，就更有机会排在前面。
-&lt;img src=&quot;/img/in-post/hilltop-arg/basic-02.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/img/in-post/hilltop-arg/basic-02.jpg&quot; alt=&quot;&quot; /&gt;
 如果我的网站同时被百度、网易、腾讯等收录，那它就有很大几率排在最前的位置了。&lt;/p&gt;
 
 &lt;h2 id=&quot;定义与概念&quot;&gt;定义与概念&lt;/h2&gt;
 
 &lt;p&gt;一、非从属组织页面&lt;/p&gt;
 
-&lt;p&gt;什么是从属组织页面呢？从属组织页面就是两个页面可能具有很强的从属关系，如果两个网站具有很强的从属关系，可能会影响对于其他网站权重的计算。举个例子，比如我的母亲喜欢吃西瓜，即使我本身对于西瓜不是很感冒，但是在与我母亲在一起时，我也会表现出喜欢吃西瓜。因此只有当两个页面从属度不高时，才能保证他们确实是代表的自己的观点，而非是属主的观点。
-&lt;img src=&quot;/img/in-post/hilltop-arg/concept-01.jpg&quot; alt=&quot;&quot; /&gt;
-从属组织页面有以下两个特征，满足任意一个则会被认定为是从属组织页面：
-特征1：主机IP地址的前三个网段相同，如：118.218.75.19 和 118.218.75.140
-特征2：网络域名中的主域名相同，如：www.baidu.com 和 www.baidu.com.cn&lt;/p&gt;
+&lt;p&gt;什么是从属组织页面呢？从属组织页面就是两个页面可能具有很强的从属关系，如果两个网站具有很强的从属关系，可能会影响对于其他网站权重的计算。举个例子，比如我的母亲喜欢吃西瓜，即使我本身对于西瓜不是很感冒，但是在与我母亲在一起时，我也会表现出喜欢吃西瓜。因此只有当两个页面从属度不高时，才能保证他们确实是代表的自己的观点。&lt;/p&gt;
+
+&lt;p&gt;从属组织页面有以下两个特征，满足任意一个则会被认定为是从属组织页面：&lt;/p&gt;
+
+&lt;p&gt;特征1：主机IP地址的前三个网段相同，如：118.218.75.19 和 118.218.75.140&lt;/p&gt;
+
+&lt;p&gt;特征2：网络域名中的主域名相同，如：www.baidu.com 和 www.baidu.com.cn&lt;/p&gt;
 
 &lt;p&gt;而若两个页面不包含这两个特征，则该两页面是非从属组织页面。&lt;/p&gt;
 
 &lt;p&gt;二、专家页面&lt;/p&gt;
 
-&lt;p&gt;专家页面即所有页面中最具有权威的一部分页面，他们的影响力远大于普通页面。而专家页面需要符合以下全部的两个特征：
-特征1：这些页面链接所指向的页面相互之间是非从属组织页面
-特征2：被该页面所指向的页面与该页面的主题相近&lt;/p&gt;
+&lt;p&gt;专家页面即所有页面中最具有权威的一部分页面，他们的影响力远大于普通页面。而专家页面需要符合以下全部的两个特征：&lt;/p&gt;
+
+&lt;p&gt;特征1：这些页面链接所指向的页面相互之间是非从属组织页面&lt;/p&gt;
+
+&lt;p&gt;特征2：被该页面所指向的页面与该页面的主题相近&lt;/p&gt;
 
 &lt;p&gt;三、目标页面集合&lt;/p&gt;
 
 &lt;p&gt;在该算法中，整个互联网中的所有页面被划分为两个子集： 专家页面集合 和 其他页面集合。&lt;/p&gt;
 
+&lt;h2 id=&quot;算法核心步骤&quot;&gt;算法核心步骤&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/hilltop-arg/alg-01.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;em&gt;算法流程如图所示&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;1.构建专家页面集合&lt;/p&gt;
+
+&lt;p&gt;专家页面的条件：页面至少包含K个出链、K个出链指向的页面都符合非从属组织页面&lt;/p&gt;
+
+&lt;p&gt;2.建立索引&lt;/p&gt;
+
+&lt;p&gt;根据&lt;strong&gt;相关片断（HTML中的网页标题、H1标签、a标签）&lt;/strong&gt;建立索引，其中：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;页面标题：支配页面内所有链接
+
+H1标签：支配H1标签内的链接
+
+a标签：支配自己
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;3.对专家页面打分——即对专家页面匹配度排序&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;打分&lt;/strong&gt;考虑如下三点：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1)包含查询词的多少
+
+2)网页标题权值最高，H1其次，a标签最低
+
+3)失配率 P=N/T（N：不属于查询词的单词个数；T：该片段的总单词数）越小越好
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;4.传递得分——将专家页面的得分传递给目标页面&lt;/p&gt;
+
+&lt;p&gt;目标页面的要求：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1)至少有两个专家页面指向该目标页面
+
+2)专家页面和目标页面是非从属组织
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;传递得分为所有专家页面传递分值之和&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;传递分值计算：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1)找到“专家页面” 中那些能够支配目标页面的“关键片段”集合S
+
+2)统计S中包含用户查询词的“关键片段”个数T，T越大传递的权值越大
+
+3)“专家页面”传递给“目标页面”的分值为：E*T，E为专家页面本身在第一阶段计算得到的相关得分，T为b步骤计算的分值
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;例如:&lt;/strong&gt;
+&lt;img src=&quot;/img/in-post/hilltop-arg/alg-02.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;整个页面的关键片段集合：{title,h1,h1中计算机，h1中操作系统,操作系统}
+用户查询“计算机”，若此时页面已算出分值S。
+该页面包含“计算机”的集合为：{title,h1,h1中计算机}
+由于这三项全部可以支配www.computer.com页面，所以传递给www.computer.com页面的值为S*3
+由于只有title和h1可以支配www.os.com页面，因此传递给www.os.com的值为S*2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;不足&quot;&gt;不足&lt;/h2&gt;
+
+&lt;p&gt;1.Hilltop算法在得到的相关专家页面集合数量过少时返回null，即没有查询结果。这意味着Hilltop算法无法作为单独的页面排序算法。可以配合其他的排序算法一起使用。&lt;/p&gt;
+
+&lt;p&gt;2.Hilltop算法过于依赖专家页面，忽视了非专家页面的影响。&lt;/p&gt;
+
+&lt;p&gt;3.由于算法在从专家页面中挑选相关专家页面集合时需要在线运行，因此时间复杂度较高。&lt;/p&gt;
+
 &lt;hr /&gt;
 
 </description>
-        <pubDate>Wed, 08 Mar 2017 22:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/03/08/hilltop/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/03/08/hilltop/</guid>
+        <pubDate>Thu, 09 Mar 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/09/hilltop/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/09/hilltop/</guid>
         
         <category>推荐算法</category>
         
@@ -67,8 +145,8 @@
     
       <item>
         <title>第一篇博文</title>
-        <description>&lt;p&gt;##缘由
-大学之后就一直想做一个技术性博客，最开始选择的是&lt;a href=&quot;http://www.csdn.net/&quot; title=&quot;csdn.net&quot;&gt;csdn&lt;/a&gt;，想在里面写一些自己的随笔和遇到的各种坑，但是无奈&lt;a href=&quot;http://www.csdn.net/&quot; title=&quot;csdn.net&quot;&gt;csdn&lt;/a&gt;的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。&lt;/p&gt;
+        <description>&lt;h2 id=&quot;缘由&quot;&gt;缘由&lt;/h2&gt;
+&lt;p&gt;大学之后就一直想做一个技术性博客，最开始选择的是&lt;a href=&quot;http://www.csdn.net/&quot; title=&quot;csdn.net&quot;&gt;csdn&lt;/a&gt;，想在里面写一些自己的随笔和遇到的各种坑，但是无奈&lt;a href=&quot;http://www.csdn.net/&quot; title=&quot;csdn.net&quot;&gt;csdn&lt;/a&gt;的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。&lt;/p&gt;
 
 &lt;p&gt;后来还是因为看到了同学&lt;a href=&quot;http://paradisehell.org/&quot; title=&quot;ParadiseHell&quot;&gt;@Tao&lt;/a&gt;的自己搭建的博客，才觉得好像自己搭一个更方便一点，而且可以完全按照自己喜欢的来设计，也不用受限于那些博客网站的对于格式的要求。所以就向&lt;a href=&quot;http://paradisehell.org/&quot; title=&quot;ParadiseHell&quot;&gt;@Tao&lt;/a&gt;请教了一下，被告知可以用&lt;a href=&quot;https://pages.github.com/&quot; title=&quot;GitHub Pages&quot;&gt;github pages&lt;/a&gt; + &lt;a href=&quot;http://jekyll.com.cn/&quot; title=&quot;jekyll&quot;&gt;jekyll&lt;/a&gt; 搭建。我又去知乎搜了一下&lt;a href=&quot;http://jekyll.com.cn/&quot; title=&quot;jekyll&quot;&gt;jekyll&lt;/a&gt;的模板，于是发现了大神&lt;a href=&quot;https://huangxuan.me/&quot; title=&quot;Hux Blog&quot;&gt;@Hux&lt;/a&gt;的博客……不得不说，这个模板真的干净又好看，是我喜欢的类型。&lt;/p&gt;
 
@@ -79,9 +157,9 @@
 &lt;hr /&gt;
 
 </description>
-        <pubDate>Thu, 09 Feb 2017 20:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/02/09/first-article/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/02/09/first-article/</guid>
+        <pubDate>Wed, 08 Mar 2017 20:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/08/first-article/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/08/first-article/</guid>
         
         <category>jekyll</category>
         

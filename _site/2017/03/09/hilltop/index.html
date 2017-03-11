@@ -10,7 +10,7 @@
     <meta name="keywords"  content="臧宏宇, Zhy, zanghyu, eaves, @白蜡下的搬运工, 臧宏宇的博客, ZhY Blog, 博客, 个人网站, 互联网,机器学习，人工智能">
     <meta name="theme-color" content="#000000">
     
-    <title>第一篇博文 - 臧宏宇的博客 | ZhY Blog</title>
+    <title>Hilltop算法 - 臧宏宇的博客 | ZhY Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/02/09/first-article/">
+    <link rel="canonical" href="http://localhost:4000/2017/03/09/hilltop/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -155,13 +155,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-first-article.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-hilltop.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-first-article.jpg')
+        background-image: url('/img/post-bg-hilltop.jpg')
     }
 
     
@@ -181,17 +181,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#jekyll" title="jekyll">jekyll</a>
-                        
-                        <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                        <a class="tag" href="/tags/#推荐算法" title="推荐算法">推荐算法</a>
                         
                     </div>
-                    <h1>第一篇博文</h1>
+                    <h1>Hilltop算法</h1>
                     
                     
-                    <h2 class="subheading">打开了新世界的大门</h2>
+                    <h2 class="subheading">Hilltop算法介绍及实现</h2>
                     
-                    <span class="meta">Posted by ZhY on February 9, 2017</span>
+                    <span class="meta">Posted by ZhY on March 9, 2017</span>
                 </div>
             </div>
         </div>
@@ -209,14 +207,125 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p>##缘由
-大学之后就一直想做一个技术性博客，最开始选择的是<a href="http://www.csdn.net/" title="csdn.net">csdn</a>，想在里面写一些自己的随笔和遇到的各种坑，但是无奈<a href="http://www.csdn.net/" title="csdn.net">csdn</a>的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。</p>
+				<h2 id="hilltop是什么">hilltop是什么</h2>
 
-<p>后来还是因为看到了同学<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>的自己搭建的博客，才觉得好像自己搭一个更方便一点，而且可以完全按照自己喜欢的来设计，也不用受限于那些博客网站的对于格式的要求。所以就向<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>请教了一下，被告知可以用<a href="https://pages.github.com/" title="GitHub Pages">github pages</a> + <a href="http://jekyll.com.cn/" title="jekyll">jekyll</a> 搭建。我又去知乎搜了一下<a href="http://jekyll.com.cn/" title="jekyll">jekyll</a>的模板，于是发现了大神<a href="https://huangxuan.me/" title="Hux Blog">@Hux</a>的博客……不得不说，这个模板真的干净又好看，是我喜欢的类型。</p>
+<p>上一篇博文介绍了google的[PageRank算法][1],而这篇博文将会介绍一个超链接相关的分析算法————hilltop算法。HillTop是一种查询相关性链接分析算法，克服了的PageRank的查询无关性的缺点。简单的说HillTop算法是针对热门查询关键词来对搜索结果重新排序的一种算法。即通过HillTop算法，我们可以得出与查询的关键词关联度最高的搜索结果，让我们可以更准确的获取查询结果。</p>
 
-<p>其实想一想，大学以来没有接过什么项目，自己总是没有方向的东学一点西学一点，导致现在都还没有一点自己的技术优势，还是有点后悔的。大二之后就对机器学习有些兴趣，再加上中间也看了一些关于机器学习、人工智能这方面的书，将来读研也可能会选择相关方向，所以就这样准备把机器学习当做这个博客的主要tag了。 希望将来有机会可以接触到一些相关领域的大牛，能够多向他们学习。</p>
+<h2 id="前提思想">前提思想</h2>
 
-<p>毕竟是个战五渣，还是从头开始认认真真学起吧！</p>
+<p>hilltop有两个基础的思想：</p>
+
+<p>一、子集传播模型</p>
+
+<p>子集传播模型有一个核心思想：主题相关网页之间的链接关系对权重所占的贡献值大于主题不相关网页之间的链接关系。即HTML页面中的超链接标签——a标签中的内容所指向的网页与该标签的关联度越大，则他们所占的权重越大。
+<img src="/img/in-post/hilltop-arg/basic-01.jpg" alt="" />
+如图所示，这两个标签都指向了另外的H1标签，显然第一个例子中两个标签的关联度大于第二个例子中两个标签的关联度（第一个例子中二者都包含了关键词”计算机”，而第二个例子中二者并没有明显的联系）。</p>
+
+<p>二、通过页面入链的数量和质量决定排序权重</p>
+
+<p>页面入链的质量越高、数量越多，则该页面所获得的权重更大，就更有机会排在前面。
+<img src="/img/in-post/hilltop-arg/basic-02.jpg" alt="" />
+如果我的网站同时被百度、网易、腾讯等收录，那它就有很大几率排在最前的位置了。</p>
+
+<h2 id="定义与概念">定义与概念</h2>
+
+<p>一、非从属组织页面</p>
+
+<p>什么是从属组织页面呢？从属组织页面就是两个页面可能具有很强的从属关系，如果两个网站具有很强的从属关系，可能会影响对于其他网站权重的计算。举个例子，比如我的母亲喜欢吃西瓜，即使我本身对于西瓜不是很感冒，但是在与我母亲在一起时，我也会表现出喜欢吃西瓜。因此只有当两个页面从属度不高时，才能保证他们确实是代表的自己的观点。</p>
+
+<p>从属组织页面有以下两个特征，满足任意一个则会被认定为是从属组织页面：</p>
+
+<p>特征1：主机IP地址的前三个网段相同，如：118.218.75.19 和 118.218.75.140</p>
+
+<p>特征2：网络域名中的主域名相同，如：www.baidu.com 和 www.baidu.com.cn</p>
+
+<p>而若两个页面不包含这两个特征，则该两页面是非从属组织页面。</p>
+
+<p>二、专家页面</p>
+
+<p>专家页面即所有页面中最具有权威的一部分页面，他们的影响力远大于普通页面。而专家页面需要符合以下全部的两个特征：</p>
+
+<p>特征1：这些页面链接所指向的页面相互之间是非从属组织页面</p>
+
+<p>特征2：被该页面所指向的页面与该页面的主题相近</p>
+
+<p>三、目标页面集合</p>
+
+<p>在该算法中，整个互联网中的所有页面被划分为两个子集： 专家页面集合 和 其他页面集合。</p>
+
+<h2 id="算法核心步骤">算法核心步骤</h2>
+
+<p><img src="/img/in-post/hilltop-arg/alg-01.jpg" alt="" />
+<em>算法流程如图所示</em></p>
+
+<p>1.构建专家页面集合</p>
+
+<p>专家页面的条件：页面至少包含K个出链、K个出链指向的页面都符合非从属组织页面</p>
+
+<p>2.建立索引</p>
+
+<p>根据<strong>相关片断（HTML中的网页标题、H1标签、a标签）</strong>建立索引，其中：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>页面标题：支配页面内所有链接
+
+H1标签：支配H1标签内的链接
+
+a标签：支配自己
+</code></pre>
+</div>
+
+<p>3.对专家页面打分——即对专家页面匹配度排序</p>
+
+<p><strong>打分</strong>考虑如下三点：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1)包含查询词的多少
+
+2)网页标题权值最高，H1其次，a标签最低
+
+3)失配率 P=N/T（N：不属于查询词的单词个数；T：该片段的总单词数）越小越好
+</code></pre>
+</div>
+
+<p>4.传递得分——将专家页面的得分传递给目标页面</p>
+
+<p>目标页面的要求：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1)至少有两个专家页面指向该目标页面
+
+2)专家页面和目标页面是非从属组织
+</code></pre>
+</div>
+
+<p><strong>传递得分为所有专家页面传递分值之和</strong></p>
+
+<p>传递分值计算：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1)找到“专家页面” 中那些能够支配目标页面的“关键片段”集合S
+
+2)统计S中包含用户查询词的“关键片段”个数T，T越大传递的权值越大
+
+3)“专家页面”传递给“目标页面”的分值为：E*T，E为专家页面本身在第一阶段计算得到的相关得分，T为b步骤计算的分值
+</code></pre>
+</div>
+
+<p><strong>例如:</strong>
+<img src="/img/in-post/hilltop-arg/alg-02.jpg" alt="" /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>整个页面的关键片段集合：{title,h1,h1中计算机，h1中操作系统,操作系统}
+用户查询“计算机”，若此时页面已算出分值S。
+该页面包含“计算机”的集合为：{title,h1,h1中计算机}
+由于这三项全部可以支配www.computer.com页面，所以传递给www.computer.com页面的值为S*3
+由于只有title和h1可以支配www.os.com页面，因此传递给www.os.com的值为S*2
+</code></pre>
+</div>
+
+<h2 id="不足">不足</h2>
+
+<p>1.Hilltop算法在得到的相关专家页面集合数量过少时返回null，即没有查询结果。这意味着Hilltop算法无法作为单独的页面排序算法。可以配合其他的排序算法一起使用。</p>
+
+<p>2.Hilltop算法过于依赖专家页面，忽视了非专家页面的影响。</p>
+
+<p>3.由于算法在从专家页面中挑选相关专家页面集合时需要在线运行，因此时间复杂度较高。</p>
 
 <hr />
 
@@ -225,21 +334,58 @@
                 <hr style="visibility: hidden;">
 
                 
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2017/03/09/hilltop"
+                    data-title="Hilltop算法"
+                    data-url="http://localhost:4000/2017/03/09/hilltop/"
+                    data-images="http://localhost:4000/img/post-bg-hilltop.jpg"
+                    data-content="hilltop是什么
+
+上一篇博文介绍了google的[PageRank算法][1],而这篇博文将会介绍一个超链接相关的分析算法————hilltop算法... | 臧宏宇的博客 | ZhY Blog " >
+                    <div class="ds-share-inline">
+                      <style> 
+                        .ds-share-icons-16 {display:none;} 
+                      </style>
+                      <ul class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
 
 
                 <ul class="pager">
                     
-                    
-                    <li class="next">
-                        <a href="/2017/03/08/hilltop/" data-toggle="tooltip" data-placement="top" title="Hilltop算法">
-                        Next<br>
-                        <span>Hilltop算法</span>
+                    <li class="previous">
+                        <a href="/2017/03/08/first-article/" data-toggle="tooltip" data-placement="top" title="第一篇博文">
+                        Previous<br>
+                        <span>第一篇博文</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
 
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2017/03/09/hilltop"
+                        data-title="Hilltop算法"
+                        data-url="http://localhost:4000/2017/03/09/hilltop/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
                 
 
                 
@@ -304,6 +450,24 @@
 </article>
 
 
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'Eaves';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
 
 
 
