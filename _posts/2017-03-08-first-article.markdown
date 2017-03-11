@@ -8,7 +8,6 @@ header-img: "img/post-bg-first-article.jpg"
 header-mask: 0.3
 catalog:    true
 tags:
-    - jekyll
     - 随笔
 ---
 ## 缘由
