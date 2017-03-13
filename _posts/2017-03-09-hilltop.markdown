@@ -4,7 +4,7 @@ title:      "Hilltop算法"
 subtitle:   "Hilltop算法介绍及实现"
 date:       2017-03-09 14:00:00
 author:     "ZhY"
-header-img: "img/post-bg-hilltop.jpg"
+header-img: "img/post-bg-basic.jpg"
 header-mask: 0.3
 catalog:    true
 tags:

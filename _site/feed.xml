@@ -5,9 +5,110 @@
     <description>关于人工智能与机器学习 | 臧宏宇，AI designer, AI developer | 这里是 @eaves臧宏宇 的个人博客。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 11 Mar 2017 13:27:34 +0800</pubDate>
-    <lastBuildDate>Sat, 11 Mar 2017 13:27:34 +0800</lastBuildDate>
+    <pubDate>Mon, 13 Mar 2017 17:14:00 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Mar 2017 17:14:00 +0800</lastBuildDate>
     <generator>Jekyll v3.4.1</generator>
+    
+      <item>
+        <title>PageRank算法&amp;TrustRank算法</title>
+        <description>&lt;h2 id=&quot;pagerank算法&quot;&gt;PageRank算法&lt;/h2&gt;
+
+&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;PageRank算法计算每一个网页的PageRank值，然后根据这个值的大小对网页的重要性进行排序。它的思想是模拟一个悠闲的上网者，上网者首先随机选择一个网页打开，然后在这个网页上呆了几分钟后，跳转到该网页所指向的链接，这样无所事事、漫无目的地在网页上跳来跳去，PageRank就是估计这个悠闲的上网者分布在各个网页上的概率。&lt;/p&gt;
+
+&lt;h3 id=&quot;算法流程&quot;&gt;算法流程&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/pagerank/alg-01.jpg&quot; alt=&quot;&quot; /&gt; 
+现在有四个网页A、B、C、D，如果当前上网者在A网页，则他会以1/3的概率转到B、C、D网页中的某一个，M的矩阵中M[i][j]表示从网页j到i的概率
+&lt;img src=&quot;/img/in-post/pagerank/alg-02.jpg&quot; alt=&quot;&quot; /&gt;
+现在假设上网者在每个网页的几率相等，即1/4，于是得到了第一次转移后该上网者在各个网页的概率。若满足图时强连通图(任意网页都可到达其他任意网页),则该图符合马尔科夫模型，V会收敛到V=[3/9,2/9,2/9,2/9]
+&lt;img src=&quot;/img/in-post/pagerank/alg-03.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/img/in-post/pagerank/alg-04.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;strong&gt;考虑到互联网中的网页不满足强连通图的特性且可能有自回路，因此需对该算法进行修正&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;完善&quot;&gt;完善&lt;/h3&gt;
+
+&lt;p&gt;由于浏览器有地址栏，而上网者在上网的过程中有可能在地址栏输入某一网址并进行跳转，因此该上网者可能从地址栏跳入各个网站，这个概率为1/n(存在输入网址为当前网址的情况——可以将这种情况当成是刷新)。&lt;/p&gt;
+
+&lt;p&gt;在这种情况下，上网者进入一个网页之后想要进行的活动有两种可能：一种是&lt;strong&gt;查看当前网页&lt;/strong&gt;，这种情况的概率假设为&lt;strong&gt;a&lt;/strong&gt;；另一种是&lt;strong&gt;从地址栏进行跳转&lt;/strong&gt;，这种情况的概率即为&lt;strong&gt;1-a&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;通过上述假设，可以得出公式&lt;img src=&quot;/img/in-post/pagerank/alg-05.jpg&quot; alt=&quot;&quot; /&gt; 该公式也是PageRank算法的核心部分&lt;/p&gt;
+
+&lt;h2 id=&quot;trustrank算法&quot;&gt;TrustRank算法&lt;/h2&gt;
+
+&lt;h3 id=&quot;简介-1&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;TrustRank算法是一种半自动化技术改进排名的方案，是由斯坦福大学和雅虎研究人员提出的链接分析技术。基本思想是在为网页排名时，要考虑到该页面所在站点的信任指数和权威性。&lt;/p&gt;
+
+&lt;h3 id=&quot;基本假设&quot;&gt;基本假设&lt;/h3&gt;
+
+&lt;p&gt;一、好的网站很少会链接到坏的网站，反之则不成立。&lt;/p&gt;
+
+&lt;p&gt;二、如果能挑选出可以百分之百信任的网站，这些网站的TrustRank值评为最高，这些TrustRank最高的网站所链接到的网站信任指数稍微降低，但是也会很高。与此类似，第二层被信任的网站链接出去的第三层网站，信任度继续下降。&lt;/p&gt;
+
+&lt;p&gt;这样，通过TrustRank算法，就能给所有网站计算出相应的信任指数，离第一层网站越远，成为垃圾网站的可能性就越大。&lt;/p&gt;
+
+&lt;h3 id=&quot;算法流程-1&quot;&gt;算法流程&lt;/h3&gt;
+
+&lt;p&gt;先用人工去识别高质量的页面(即“种子”页面)，那么由“种子”页面指向的页面也可能是高质量页面，即其TrustRank也高，与“种子”页面的链接越远，页面的TrustRank越低。&lt;/p&gt;
+
+&lt;p&gt;TrustRank采用半自动的方法区分垃圾文件和高质量较文件。依靠专家去评估一系列“种子”页面的TrustRank值。一旦确定了“种子”页面，就容易区分好页面和垃圾页面，通过机器分析链接结构来确定其它页面的TrustRank值。&lt;/p&gt;
+
+&lt;p&gt;首先我们有如下几个网页
+&lt;img src=&quot;/img/in-post/trustrank/alg-01.jpg&quot; alt=&quot;&quot; /&gt;
+TrustRank的重点在于挑选种子网页，在这里使用E的逆矩阵，通过PageRank算法找到进入网页几率最大的网页
+&lt;img src=&quot;/img/in-post/trustrank/alg-02.jpg&quot; alt=&quot;&quot; /&gt;
+下一步挑选种子网页，通过PageRank算法迭代M次最终得到值S。
+&lt;img src=&quot;/img/in-post/trustrank/alg-03.jpg&quot; alt=&quot;&quot; /&gt;
+在这里我们选取α为0.85，M为20，此时可以得到评分最高
+的三个网页为2,4,5。这时候将2,4,5挑选出来作为备选的种子网页
+&lt;img src=&quot;/img/in-post/trustrank/alg-04.jpg&quot; alt=&quot;&quot; /&gt;
+这时候人工的专家来进行种子网页识别，将图还原为原来的图，如果认为i网页是好网页，则O(i)=1，否则O(i)=0
+&lt;img src=&quot;/img/in-post/trustrank/alg-05.jpg&quot; alt=&quot;&quot; /&gt;
+将种子网页进行分类，然后根据S+中的数量m,上网者在每个其中的网页的概率为1/m。因此可以得出新的上网者初始访问网页的概率矩阵。
+&lt;img src=&quot;/img/in-post/trustrank/alg-06.jpg&quot; alt=&quot;&quot; /&gt;
+此时用新的上网者初始停留概率来计算，可得最终TrustRank值
+&lt;img src=&quot;/img/in-post/trustrank/alg-07.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;判定因素&quot;&gt;判定因素&lt;/h3&gt;
+
+&lt;p&gt;一些能够影响站点TrustRank值从而影响排名的因素：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;域名注册期5年或5年有余
+
+网站由专业侍服提供服务
+
+网站加载迅速
+
+内容是原创的
+
+游客在每页上驻留时间超过90秒
+
+网站被多个国际IP段引用
+
+网站在其所处行业时权威站点
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;参考资料及参考链接&quot;&gt;参考资料及参考链接&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://ilpubs.stanford.edu:8090/638/1/2004-17.pdf&quot;&gt;Combating Web Spam with TrustRank&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/aspirinvagrant/article/details/40924539&quot;&gt;trustrank算法&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.jobbole.com/71431/&quot;&gt;PageRank算法简介及Map-Reduce实现&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+</description>
+        <pubDate>Fri, 10 Mar 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/10/trust-page/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/10/trust-page/</guid>
+        
+        <category>推荐算法</category>
+        
+        
+      </item>
     
       <item>
         <title>Hilltop算法</title>
@@ -160,8 +261,6 @@ a标签：支配自己
         <pubDate>Wed, 08 Mar 2017 20:00:00 +0800</pubDate>
         <link>http://localhost:4000/2017/03/08/first-article/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/03/08/first-article/</guid>
-        
-        <category>jekyll</category>
         
         <category>随笔</category>
         
