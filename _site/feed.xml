@@ -5,107 +5,216 @@
     <description>关于人工智能与机器学习 | 臧宏宇，AI designer, AI developer | 这里是 @eaves臧宏宇 的个人博客。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 13 Mar 2017 17:14:00 +0800</pubDate>
-    <lastBuildDate>Mon, 13 Mar 2017 17:14:00 +0800</lastBuildDate>
+    <pubDate>Sat, 08 Apr 2017 20:48:55 +0800</pubDate>
+    <lastBuildDate>Sat, 08 Apr 2017 20:48:55 +0800</lastBuildDate>
     <generator>Jekyll v3.4.1</generator>
     
       <item>
-        <title>PageRank算法&amp;TrustRank算法</title>
-        <description>&lt;h2 id=&quot;pagerank算法&quot;&gt;PageRank算法&lt;/h2&gt;
+        <title>线性回归及广义线性回归算法</title>
+        <description>&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;
 
-&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
+&lt;h2 id=&quot;线性回归预备公式&quot;&gt;线性回归预备公式&lt;/h2&gt;
 
-&lt;p&gt;PageRank算法计算每一个网页的PageRank值，然后根据这个值的大小对网页的重要性进行排序。它的思想是模拟一个悠闲的上网者，上网者首先随机选择一个网页打开，然后在这个网页上呆了几分钟后，跳转到该网页所指向的链接，这样无所事事、漫无目的地在网页上跳来跳去，PageRank就是估计这个悠闲的上网者分布在各个网页上的概率。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial X\theta }{\partial \theta}= X^T&lt;/script&gt;
 
-&lt;h3 id=&quot;算法流程&quot;&gt;算法流程&lt;/h3&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial \theta^T X} {\partial \theta^T}=X^T&lt;/script&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/in-post/pagerank/alg-01.jpg&quot; alt=&quot;&quot; /&gt; 
-现在有四个网页A、B、C、D，如果当前上网者在A网页，则他会以1/3的概率转到B、C、D网页中的某一个，M的矩阵中M[i][j]表示从网页j到i的概率
-&lt;img src=&quot;/img/in-post/pagerank/alg-02.jpg&quot; alt=&quot;&quot; /&gt;
-现在假设上网者在每个网页的几率相等，即1/4，于是得到了第一次转移后该上网者在各个网页的概率。若满足图时强连通图(任意网页都可到达其他任意网页),则该图符合马尔科夫模型，V会收敛到V=[3/9,2/9,2/9,2/9]
-&lt;img src=&quot;/img/in-post/pagerank/alg-03.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;/img/in-post/pagerank/alg-04.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;strong&gt;考虑到互联网中的网页不满足强连通图的特性且可能有自回路，因此需对该算法进行修正&lt;/strong&gt;&lt;/p&gt;
-&lt;h3 id=&quot;完善&quot;&gt;完善&lt;/h3&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial \theta^T X}{\partial \theta}=X&lt;/script&gt;
 
-&lt;p&gt;由于浏览器有地址栏，而上网者在上网的过程中有可能在地址栏输入某一网址并进行跳转，因此该上网者可能从地址栏跳入各个网站，这个概率为1/n(存在输入网址为当前网址的情况——可以将这种情况当成是刷新)。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial \theta^T X \theta}{\partial \theta}=(X+X^T)\theta&lt;/script&gt;
 
-&lt;p&gt;在这种情况下，上网者进入一个网页之后想要进行的活动有两种可能：一种是&lt;strong&gt;查看当前网页&lt;/strong&gt;，这种情况的概率假设为&lt;strong&gt;a&lt;/strong&gt;；另一种是&lt;strong&gt;从地址栏进行跳转&lt;/strong&gt;，这种情况的概率即为&lt;strong&gt;1-a&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;什么是线性回归&quot;&gt;什么是线性回归&lt;/h2&gt;
 
-&lt;p&gt;通过上述假设，可以得出公式&lt;img src=&quot;/img/in-post/pagerank/alg-05.jpg&quot; alt=&quot;&quot; /&gt; 该公式也是PageRank算法的核心部分&lt;/p&gt;
+&lt;p&gt;首先要明确一点就是什么是回归？我们希望有一个模型可以具有一定的预测能力，当我们想要预测的是连续值时，这类的学习任务被称为是“回归”。回归的目的是建立一个回归方程用来预测目标值，回归的求解就是求这个回归方程的回归系数。&lt;/p&gt;
 
-&lt;h2 id=&quot;trustrank算法&quot;&gt;TrustRank算法&lt;/h2&gt;
+&lt;p&gt;回归最简单的定义是 给出一个点集D，用一个函数去拟合这个点集，并且使得点集与拟合函数间的误差最小，如果这个函数曲线是一条直线，那就被称为线性回归。&lt;/p&gt;
 
-&lt;h3 id=&quot;简介-1&quot;&gt;简介&lt;/h3&gt;
+&lt;p&gt;比如样本值x与预测值y的函数为&lt;script type=&quot;math/tex&quot;&gt;y = \theta \cdot x&lt;/script&gt; 的图像是一条直线，因此是线性的。但是实际问题中往往样本值不止一个，因此实际函数一般为&lt;/p&gt;
 
-&lt;p&gt;TrustRank算法是一种半自动化技术改进排名的方案，是由斯坦福大学和雅虎研究人员提出的链接分析技术。基本思想是在为网页排名时，要考虑到该页面所在站点的信任指数和权威性。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h(x)=\sum_{i=0}^n \theta_i x_i = \theta^T x&lt;/script&gt;
 
-&lt;h3 id=&quot;基本假设&quot;&gt;基本假设&lt;/h3&gt;
+&lt;p&gt;其中&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;表示未知参数，是要学习出来的值， &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt;表示自变量，在这里是用列向量表示，而&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;是行向量，因此用&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;转置。&lt;/p&gt;
 
-&lt;p&gt;一、好的网站很少会链接到坏的网站，反之则不成立。&lt;/p&gt;
+&lt;p&gt;线性回归试图学习的是使得&lt;script type=&quot;math/tex&quot;&gt;h(x_i)&lt;/script&gt;与&lt;script type=&quot;math/tex&quot;&gt;y_i&lt;/script&gt;的差距尽可能小，而在这里衡量h(x)与y的差别所采用的标准是均方误差（也被称为平方损失），均方误差有着很好的几何意义，它对应了常用的欧几里得距离。&lt;/p&gt;
 
-&lt;p&gt;二、如果能挑选出可以百分之百信任的网站，这些网站的TrustRank值评为最高，这些TrustRank最高的网站所链接到的网站信任指数稍微降低，但是也会很高。与此类似，第二层被信任的网站链接出去的第三层网站，信任度继续下降。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta^*=arg_\theta min\sum_{i=0}^m(h(x_i)-y_i)^2&lt;/script&gt;
 
-&lt;p&gt;这样，通过TrustRank算法，就能给所有网站计算出相应的信任指数，离第一层网站越远，成为垃圾网站的可能性就越大。&lt;/p&gt;
+&lt;h4 id=&quot;最小二乘&quot;&gt;最小二乘&lt;/h4&gt;
 
-&lt;h3 id=&quot;算法流程-1&quot;&gt;算法流程&lt;/h3&gt;
+&lt;p&gt;m为样本个数，最小二乘的函数为：&lt;/p&gt;
 
-&lt;p&gt;先用人工去识别高质量的页面(即“种子”页面)，那么由“种子”页面指向的页面也可能是高质量页面，即其TrustRank也高，与“种子”页面的链接越远，页面的TrustRank越低。&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta)=\frac 1 2 \sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2&lt;/script&gt;
 
-&lt;p&gt;TrustRank采用半自动的方法区分垃圾文件和高质量较文件。依靠专家去评估一系列“种子”页面的TrustRank值。一旦确定了“种子”页面，就容易区分好页面和垃圾页面，通过机器分析链接结构来确定其它页面的TrustRank值。&lt;/p&gt;
+&lt;p&gt;由于该函数求二阶偏导偏导可知其为凸函数，因此当其导数为0时，取到该函数的极小值。&lt;/p&gt;
 
-&lt;p&gt;首先我们有如下几个网页
-&lt;img src=&quot;/img/in-post/trustrank/alg-01.jpg&quot; alt=&quot;&quot; /&gt;
-TrustRank的重点在于挑选种子网页，在这里使用E的逆矩阵，通过PageRank算法找到进入网页几率最大的网页
-&lt;img src=&quot;/img/in-post/trustrank/alg-02.jpg&quot; alt=&quot;&quot; /&gt;
-下一步挑选种子网页，通过PageRank算法迭代M次最终得到值S。
-&lt;img src=&quot;/img/in-post/trustrank/alg-03.jpg&quot; alt=&quot;&quot; /&gt;
-在这里我们选取α为0.85，M为20，此时可以得到评分最高
-的三个网页为2,4,5。这时候将2,4,5挑选出来作为备选的种子网页
-&lt;img src=&quot;/img/in-post/trustrank/alg-04.jpg&quot; alt=&quot;&quot; /&gt;
-这时候人工的专家来进行种子网页识别，将图还原为原来的图，如果认为i网页是好网页，则O(i)=1，否则O(i)=0
-&lt;img src=&quot;/img/in-post/trustrank/alg-05.jpg&quot; alt=&quot;&quot; /&gt;
-将种子网页进行分类，然后根据S+中的数量m,上网者在每个其中的网页的概率为1/m。因此可以得出新的上网者初始访问网页的概率矩阵。
-&lt;img src=&quot;/img/in-post/trustrank/alg-06.jpg&quot; alt=&quot;&quot; /&gt;
-此时用新的上网者初始停留概率来计算，可得最终TrustRank值
-&lt;img src=&quot;/img/in-post/trustrank/alg-07.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;另外：最小二乘建立的目标函数，是在噪声在均值为0时的高斯分布下，极大似然估计的目标函数。&lt;/p&gt;
 
-&lt;h3 id=&quot;判定因素&quot;&gt;判定因素&lt;/h3&gt;
+&lt;p&gt;设真实值和样本值的偏差为&lt;script type=&quot;math/tex&quot;&gt;\epsilon&lt;/script&gt; 则可以表示为：&lt;/p&gt;
 
-&lt;p&gt;一些能够影响站点TrustRank值从而影响排名的因素：&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y^{(i)}=\theta^Tx^{(i)}+\epsilon^{(i)}&lt;/script&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;域名注册期5年或5年有余
+&lt;p&gt;由于该偏差为多种不同噪声的叠加，而根据中心极限定理可知，&lt;script type=&quot;math/tex&quot;&gt;\epsilon&lt;/script&gt;符合高斯分布。因此&lt;script type=&quot;math/tex&quot;&gt;\epsilon^{(i)}&lt;/script&gt;的概率函数为&lt;/p&gt;
 
-网站由专业侍服提供服务
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(\epsilon ^{(i)})=\frac 1 {\sqrt {2\pi}\sigma}exp(-\frac {(\epsilon ^{(i)})^2} {2\sigma^2})&lt;/script&gt;
 
-网站加载迅速
+&lt;p&gt;将&lt;script type=&quot;math/tex&quot;&gt;x^{(i)}&lt;/script&gt; &lt;script type=&quot;math/tex&quot;&gt;y^{(i)}&lt;/script&gt; &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;代入后得到&lt;/p&gt;
 
-内容是原创的
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y^{(i)}|x^{(i)};\theta)=\frac 1 {\sqrt {2\pi}\sigma}exp(-\frac {(y^{(i)}-\theta^Tx^{(i)})^2} {2\sigma^2})&lt;/script&gt;
 
-游客在每页上驻留时间超过90秒
+&lt;p&gt;采用极大似然法计算其似然函数为：&lt;/p&gt;
 
-网站被多个国际IP段引用
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{rcl} L(\theta) &amp;=&amp; \prod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)\\&amp;=&amp; \prod_{i=1}^m \frac 1 {\sqrt {2\pi}\sigma}exp(-\frac {(y^{(i)}-\theta^Tx^{(i)})^2} {2\sigma^2})\end{array} %]]&gt;&lt;/script&gt;
 
-网站在其所处行业时权威站点
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;左右同时取对数后：&lt;/p&gt;
 
-&lt;h3 id=&quot;参考资料及参考链接&quot;&gt;参考资料及参考链接&lt;/h3&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{rcl} l(\theta) &amp;=&amp; logL(\theta) \\&amp;=&amp; log\prod_{i=1}^m \frac 1 {\sqrt {2\pi}\sigma}exp(-\frac {(y^{(i)}-\theta^Tx^{(i)})^2} {2\sigma^2})\\ &amp;=&amp; mlog\frac 1 {\sqrt{2\pi}\sigma}-\frac 1 {\sigma^2}\cdot\frac 1 2\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})^2\end{array} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://ilpubs.stanford.edu:8090/638/1/2004-17.pdf&quot;&gt;Combating Web Spam with TrustRank&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;由于&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt;已知，并且要求&lt;script type=&quot;math/tex&quot;&gt;l(\theta)&lt;/script&gt;的最大值，因此应该取&lt;script type=&quot;math/tex&quot;&gt;\frac 1 2\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})^2&lt;/script&gt; 的极小值。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/aspirinvagrant/article/details/40924539&quot;&gt;trustrank算法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这一点也证明了最小二乘是符合常理的。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://blog.jobbole.com/71431/&quot;&gt;PageRank算法简介及Map-Reduce实现&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&quot;向量形式&quot;&gt;向量形式&lt;/h4&gt;
+
+&lt;p&gt;函数&lt;script type=&quot;math/tex&quot;&gt;J(\theta)&lt;/script&gt;可以表示为向量形式&lt;script type=&quot;math/tex&quot;&gt;J(\theta) = \frac 1 2 (\theta X-y)^T \cdot (\theta X - y)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;将该式打开后可得&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta)=\frac 1 2 (\theta^T X^T X \theta - \theta^T X^T y-y^T X \theta +y^T y)&lt;/script&gt;
+
+&lt;p&gt;根据预备公式可得出 &lt;script type=&quot;math/tex&quot;&gt;\frac {\partial \theta^T X^T X \theta}{\partial\theta} = (X^T X + X X^T)\theta&lt;/script&gt; 又因为 &lt;script type=&quot;math/tex&quot;&gt;X X^T&lt;/script&gt;为对称阵(&lt;script type=&quot;math/tex&quot;&gt;(X X^T)^T=X X^T&lt;/script&gt;，因此为对称阵)，所以该式等于&lt;script type=&quot;math/tex&quot;&gt;2X^T X\theta&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;因此&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{rcl}\frac {\partial J(\theta)}{\partial \theta} &amp;=&amp; \frac 1 2 (2X^T X \theta -2X^Ty)\\&amp;=&amp;  X^T X \theta - X^T y \end{array} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;当该偏导等于0时取得最优解，此时&lt;script type=&quot;math/tex&quot;&gt;\theta = (X^T X)^{-1}X^T y&lt;/script&gt;  若X^T X不可逆时该式不可用，因此需要加上一个扰动量&lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt;使其可逆，此时&lt;script type=&quot;math/tex&quot;&gt;\theta = (X^T X + \lambda I)^{-1}X^T y&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;原因：&lt;script type=&quot;math/tex&quot;&gt;X^T X&lt;/script&gt;半正定，加上扰动量后正定，因此可逆。（即岭回归方法）&lt;/p&gt;
+
+&lt;h4 id=&quot;简单推导形式&quot;&gt;简单推导形式&lt;/h4&gt;
+
+&lt;p&gt;由于已知&lt;script type=&quot;math/tex&quot;&gt;X\theta = y&lt;/script&gt;，则可推&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X^T X \theta=X^T y&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta = (X^T X)^{-1}X^T y&lt;/script&gt;
+
+&lt;h2 id=&quot;基本算法&quot;&gt;基本算法&lt;/h2&gt;
+
+&lt;h4 id=&quot;梯度下降算法&quot;&gt;梯度下降算法&lt;/h4&gt;
+
+&lt;p&gt;1.初始化&lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt;值&lt;/p&gt;
+
+&lt;p&gt;2.迭代&lt;script type=&quot;math/tex&quot;&gt;\theta_j := \theta_j-\alpha\frac {\partial}{\partial \theta_j}J(\theta)&lt;/script&gt;   其中&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;为学习率&lt;/p&gt;
+
+&lt;p&gt;3.如果&lt;script type=&quot;math/tex&quot;&gt;J(\theta)&lt;/script&gt;能继续减少，返回2&lt;/p&gt;
+
+&lt;h4 id=&quot;批处理梯度下降算法&quot;&gt;批处理梯度下降算法&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_j :=\theta_j+\alpha\sum_{i=1}^m(y^{(i)}-h_\theta(x^{(i)}))x_j^{(i)}&lt;/script&gt;
+
+&lt;p&gt;该方式要得到所有样本时才下降一次，速度较慢，但一定能达到最优值。&lt;/p&gt;
+
+&lt;h4 id=&quot;随机梯度下降算法&quot;&gt;随机梯度下降算法&lt;/h4&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation} 
+	\begin{split}
+	for (i =&amp; 1; i &lt;= m ; i++ ) \\
+	&amp;\theta_j:=\theta_j+\alpha(y^{(i)}-h_\theta(x^{(i)}))x_j^{(i)} 
+	\end{split}
+	\end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;随机梯度不一定最终收敛，有可能在最终结果附近震荡，但是速度较快。&lt;/p&gt;
+
+&lt;h4 id=&quot;mini-batch算法&quot;&gt;mini-batch算法&lt;/h4&gt;
+
+&lt;p&gt;综合以上两种算法，每次选取b个&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{equation}
+	\begin{split}
+	for (i =&amp; 1; i&lt;=m; i+= b) \\
+	&amp;\theta_j :=\theta_j+\alpha\sum_{i=1}^b(y^{(i)}-h_\theta(x^{(i)}))x_j^{(i)}
+	\end{split}
+\end{equation} %]]&gt;&lt;/script&gt;
+
+&lt;h4 id=&quot;局部加权线性回归&quot;&gt;局部加权线性回归&lt;/h4&gt;
+
+&lt;p&gt;由于最初的线性回归只能拟合出一条直线，但是大多数现实生活中的数据并非都能用线性模型描述，而有时候曲线反而更容易拟合。因此我们预测一个点时，选择与这个点相近的点做线性回归。赋予每个点一个权值，当一个点距离所要预测的点越近，其权值越大，对回归曲线的贡献越大。&lt;/p&gt;
+
+&lt;p&gt;最初的线性回归要求最小化&lt;script type=&quot;math/tex&quot;&gt;\sum_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})^2&lt;/script&gt;，而局部加权线性回归会增加一个权重：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\theta) = \sum_{i=1}^m\omega^{(i)}(h_\theta(x^{(i)})-y^{(i)})^2&lt;/script&gt;
+
+&lt;p&gt;权值的设置可以任选一种方式，一般取高斯核函数：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\omega^{(i)} = exp(-\frac{(x^{(i)}-x)^2}{2\tau^2})&lt;/script&gt;
+
+&lt;p&gt;其中&lt;script type=&quot;math/tex&quot;&gt;\tau&lt;/script&gt;成为带宽，它控制着训练样本随着与&lt;script type=&quot;math/tex&quot;&gt;x^{(i)}&lt;/script&gt;距离的衰减速率&lt;/p&gt;
+
+&lt;h2 id=&quot;logistic回归&quot;&gt;logistic回归&lt;/h2&gt;
+
+&lt;p&gt;有函数&lt;script type=&quot;math/tex&quot;&gt;g(z)=\frac 1 {1+e^{-z}}&lt;/script&gt;图像为&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/regression/logistic.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;若将z用某个线性组合表示，即用&lt;script type=&quot;math/tex&quot;&gt;\theta^T x&lt;/script&gt;表示。则可得&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_\theta(x)=g(\theta^T x)=\frac 1 {1+e^{-\theta^T x}}&lt;/script&gt;
+
+&lt;p&gt;假设如下两个等式成立，&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=1|x;\theta)=h_\theta(x)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;p(y=0|x;\theta)=1-h_\theta(x)&lt;/script&gt;
+
+&lt;p&gt;那么我们可以将他们整理为&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(p(y|x;\theta)=(h_\theta(x))^y(1-h_\theta(x))^{1-y}&lt;/script&gt;
+
+&lt;p&gt;极大似然法可得 &lt;script type=&quot;math/tex&quot;&gt;L(\theta)=\prod_{i=1}^m {(h_\theta(x^{(i)}))^y}^{(i)}(1-h_\theta(x^{(i)}))^{1-y^{(i)}}&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;l(\theta)=\sum_{i=1}^m y^{(i)}log(h_\theta(x^{(i)}))+(1-y^{(i)})log(1-h_\theta(x^{(i)}))&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{rcl}\frac {\partial l(\theta)}{\partial \theta_j} &amp;=&amp; (y^{(i)}\frac 1 {h_\theta(x^{(i)})} - (1-y^{(i)})\frac 1 {1-h_\theta(x^{(i)})})\frac {\partial h_\theta(x^{(i)})} {\partial \theta_j} \\&amp;=&amp; (y \frac 1 {g(\theta^T x)} - (1-y) \frac 1 {1 - g(\theta^T x)} ) g(\theta x) (1-g(\theta^T x ) ) \frac {\partial \theta^T x}{\partial \theta_j} \\&amp;=&amp; (y(1-g(\theta^T x))-(1-y)g(\theta^T x)) x_j \\&amp;=&amp; (y-h_\theta(x)x_j\end{array} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;由此可以得出logistic回归的迭代式为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\theta_j :=\theta_j + \alpha (y^{(i)}-h_\theta(x^{(i)}))x_j^{(i)}&lt;/script&gt;
+
+&lt;h2 id=&quot;对数线性模型&quot;&gt;对数线性模型&lt;/h2&gt;
+
+&lt;p&gt;一个事件的几率odds，是指该事件发生的概率与该事件不发生的概率的比值。&lt;/p&gt;
+
+&lt;p&gt;则针对于logistic回归的对数几率：logit函数表示为：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;logit(p)=log \frac{p}{1-p} = log\frac{h_\theta(x)}{1-h_\theta(x)} = log \frac{\frac 1 {1+e^{-\theta^T x}}}{\frac {e^{-\theta^T x}}{1+e^{-\theta^T x}}}=\theta^T x&lt;/script&gt;
+
+&lt;p&gt;因此其对数几率为线性函数。所以我们认为logistic回归为对数线性模型，也就是广义线性模型。&lt;/p&gt;
 
 &lt;hr /&gt;
 
+&lt;h2 id=&quot;参考文献&quot;&gt;参考文献&lt;/h2&gt;
+
+&lt;p&gt;《广义线性回归和对偶优化》——邹博&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/suipingsp/article/details/42101139/&quot;&gt;机器学习经典算法详解及Python实现–线性回归（Linear Regression）算法&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://baike.baidu.com/link?url=yp9q-n_7-hi2RFlvv3so1Ek1bZx1Lmrp-Rn1zXJNxjaryr6xSm1hMe4fGwPdCPPiF8lMduRvVij0bwUUe3LBLdfCfIGtPFLy6xj6t42T33XStVz4GLDe-ilMMrYJm72g&quot;&gt;logistic回归&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/dongtingzhizi/article/details/15962797&quot;&gt;logistic回归总结&lt;/a&gt;&lt;/p&gt;
+
 </description>
-        <pubDate>Fri, 10 Mar 2017 22:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/03/10/trust-page/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/03/10/trust-page/</guid>
+        <pubDate>Wed, 05 Apr 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/04/05/linear-regression/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/05/linear-regression/</guid>
         
-        <category>推荐算法</category>
+        <category>机器学习算法</category>
         
         
       </item>
@@ -114,7 +223,7 @@ TrustRank的重点在于挑选种子网页，在这里使用E的逆矩阵，通�
         <title>Hilltop算法</title>
         <description>&lt;h2 id=&quot;hilltop是什么&quot;&gt;hilltop是什么&lt;/h2&gt;
 
-&lt;p&gt;上一篇博文介绍了google的[PageRank算法][1],而这篇博文将会介绍一个超链接相关的分析算法————hilltop算法。HillTop是一种查询相关性链接分析算法，克服了的PageRank的查询无关性的缺点。简单的说HillTop算法是针对热门查询关键词来对搜索结果重新排序的一种算法。即通过HillTop算法，我们可以得出与查询的关键词关联度最高的搜索结果，让我们可以更准确的获取查询结果。&lt;/p&gt;
+&lt;p&gt;上一篇博文介绍了google的&lt;a href=&quot;http://hylearning.tech/2017/03/10/trust-page/&quot;&gt;PageRank算法&lt;/a&gt;,而这篇博文将会介绍一个超链接相关的分析算法————hilltop算法。HillTop是一种查询相关性链接分析算法，克服了的PageRank的查询无关性的缺点。简单的说HillTop算法是针对热门查询关键词来对搜索结果重新排序的一种算法。即通过HillTop算法，我们可以得出与查询的关键词关联度最高的搜索结果，让我们可以更准确的获取查询结果。&lt;/p&gt;
 
 &lt;h2 id=&quot;前提思想&quot;&gt;前提思想&lt;/h2&gt;
 
@@ -235,9 +344,110 @@ a标签：支配自己
 &lt;hr /&gt;
 
 </description>
-        <pubDate>Thu, 09 Mar 2017 22:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2017/03/09/hilltop/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/03/09/hilltop/</guid>
+        <pubDate>Sun, 12 Mar 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/12/hilltop/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/12/hilltop/</guid>
+        
+        <category>推荐算法</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>PageRank算法&amp;TrustRank算法</title>
+        <description>&lt;h2 id=&quot;pagerank算法&quot;&gt;PageRank算法&lt;/h2&gt;
+
+&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;PageRank算法计算每一个网页的PageRank值，然后根据这个值的大小对网页的重要性进行排序。它的思想是模拟一个悠闲的上网者，上网者首先随机选择一个网页打开，然后在这个网页上呆了几分钟后，跳转到该网页所指向的链接，这样无所事事、漫无目的地在网页上跳来跳去，PageRank就是估计这个悠闲的上网者分布在各个网页上的概率。&lt;/p&gt;
+
+&lt;h3 id=&quot;算法流程&quot;&gt;算法流程&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/pagerank/alg-01.jpg&quot; alt=&quot;&quot; /&gt; 
+现在有四个网页A、B、C、D，如果当前上网者在A网页，则他会以1/3的概率转到B、C、D网页中的某一个，M的矩阵中M[i][j]表示从网页j到i的概率
+&lt;img src=&quot;/img/in-post/pagerank/alg-02.jpg&quot; alt=&quot;&quot; /&gt;
+现在假设上网者在每个网页的几率相等，即1/4，于是得到了第一次转移后该上网者在各个网页的概率。若满足图时强连通图(任意网页都可到达其他任意网页),则该图符合马尔科夫模型，V会收敛到V=[3/9,2/9,2/9,2/9]
+&lt;img src=&quot;/img/in-post/pagerank/alg-03.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;/img/in-post/pagerank/alg-04.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;strong&gt;考虑到互联网中的网页不满足强连通图的特性且可能有自回路，因此需对该算法进行修正&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;完善&quot;&gt;完善&lt;/h3&gt;
+
+&lt;p&gt;由于浏览器有地址栏，而上网者在上网的过程中有可能在地址栏输入某一网址并进行跳转，因此该上网者可能从地址栏跳入各个网站，这个概率为1/n(存在输入网址为当前网址的情况——可以将这种情况当成是刷新)。&lt;/p&gt;
+
+&lt;p&gt;在这种情况下，上网者进入一个网页之后想要进行的活动有两种可能：一种是&lt;strong&gt;查看当前网页&lt;/strong&gt;，这种情况的概率假设为&lt;strong&gt;a&lt;/strong&gt;；另一种是&lt;strong&gt;从地址栏进行跳转&lt;/strong&gt;，这种情况的概率即为&lt;strong&gt;1-a&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;通过上述假设，可以得出公式&lt;img src=&quot;/img/in-post/pagerank/alg-05.jpg&quot; alt=&quot;&quot; /&gt; 该公式也是PageRank算法的核心部分&lt;/p&gt;
+
+&lt;h2 id=&quot;trustrank算法&quot;&gt;TrustRank算法&lt;/h2&gt;
+
+&lt;h3 id=&quot;简介-1&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;TrustRank算法是一种半自动化技术改进排名的方案，是由斯坦福大学和雅虎研究人员提出的链接分析技术。基本思想是在为网页排名时，要考虑到该页面所在站点的信任指数和权威性。&lt;/p&gt;
+
+&lt;h3 id=&quot;基本假设&quot;&gt;基本假设&lt;/h3&gt;
+
+&lt;p&gt;一、好的网站很少会链接到坏的网站，反之则不成立。&lt;/p&gt;
+
+&lt;p&gt;二、如果能挑选出可以百分之百信任的网站，这些网站的TrustRank值评为最高，这些TrustRank最高的网站所链接到的网站信任指数稍微降低，但是也会很高。与此类似，第二层被信任的网站链接出去的第三层网站，信任度继续下降。&lt;/p&gt;
+
+&lt;p&gt;这样，通过TrustRank算法，就能给所有网站计算出相应的信任指数，离第一层网站越远，成为垃圾网站的可能性就越大。&lt;/p&gt;
+
+&lt;h3 id=&quot;算法流程-1&quot;&gt;算法流程&lt;/h3&gt;
+
+&lt;p&gt;先用人工去识别高质量的页面(即“种子”页面)，那么由“种子”页面指向的页面也可能是高质量页面，即其TrustRank也高，与“种子”页面的链接越远，页面的TrustRank越低。&lt;/p&gt;
+
+&lt;p&gt;TrustRank采用半自动的方法区分垃圾文件和高质量较文件。依靠专家去评估一系列“种子”页面的TrustRank值。一旦确定了“种子”页面，就容易区分好页面和垃圾页面，通过机器分析链接结构来确定其它页面的TrustRank值。&lt;/p&gt;
+
+&lt;p&gt;首先我们有如下几个网页
+&lt;img src=&quot;/img/in-post/trustrank/alg-01.jpg&quot; alt=&quot;&quot; /&gt;
+TrustRank的重点在于挑选种子网页，在这里使用E的逆矩阵，通过PageRank算法找到进入网页几率最大的网页
+&lt;img src=&quot;/img/in-post/trustrank/alg-02.jpg&quot; alt=&quot;&quot; /&gt;
+下一步挑选种子网页，通过PageRank算法迭代M次最终得到值S。
+&lt;img src=&quot;/img/in-post/trustrank/alg-03.jpg&quot; alt=&quot;&quot; /&gt;
+在这里我们选取α为0.85，M为20，此时可以得到评分最高
+的三个网页为2,4,5。这时候将2,4,5挑选出来作为备选的种子网页
+&lt;img src=&quot;/img/in-post/trustrank/alg-04.jpg&quot; alt=&quot;&quot; /&gt;
+这时候人工的专家来进行种子网页识别，将图还原为原来的图，如果认为i网页是好网页，则O(i)=1，否则O(i)=0
+&lt;img src=&quot;/img/in-post/trustrank/alg-05.jpg&quot; alt=&quot;&quot; /&gt;
+将种子网页进行分类，然后根据S+中的数量m,上网者在每个其中的网页的概率为1/m。因此可以得出新的上网者初始访问网页的概率矩阵。
+&lt;img src=&quot;/img/in-post/trustrank/alg-06.jpg&quot; alt=&quot;&quot; /&gt;
+此时用新的上网者初始停留概率来计算，可得最终TrustRank值
+&lt;img src=&quot;/img/in-post/trustrank/alg-07.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;判定因素&quot;&gt;判定因素&lt;/h3&gt;
+
+&lt;p&gt;一些能够影响站点TrustRank值从而影响排名的因素：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;域名注册期5年或5年有余
+
+网站由专业侍服提供服务
+
+网站加载迅速
+
+内容是原创的
+
+游客在每页上驻留时间超过90秒
+
+网站被多个国际IP段引用
+
+网站在其所处行业时权威站点
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;参考资料及参考链接&quot;&gt;参考资料及参考链接&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://ilpubs.stanford.edu:8090/638/1/2004-17.pdf&quot;&gt;Combating Web Spam with TrustRank&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/aspirinvagrant/article/details/40924539&quot;&gt;trustrank算法&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.jobbole.com/71431/&quot;&gt;PageRank算法简介及Map-Reduce实现&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+</description>
+        <pubDate>Fri, 10 Mar 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/03/10/trust-page/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/10/trust-page/</guid>
         
         <category>推荐算法</category>
         
