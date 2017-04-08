@@ -4,7 +4,7 @@ title:      "线性回归及广义线性回归算法"
 subtitle:   "线性回归及广义线性回归"
 date:       2017-04-05 14:00:00
 author:     "ZhY"
-header-img: ""
+header-img: "img/post-bg-basic.jpg"
 header-mask: 0.3
 catalog:    true
 tags:
