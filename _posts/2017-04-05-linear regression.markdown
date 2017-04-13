@@ -212,3 +212,8 @@ $$logit(p)=log \frac{p}{1-p} = log\frac{h_\theta(x)}{1-h_\theta(x)} = log \frac{
 
 [3]:http://blog.csdn.net/dongtingzhizi/article/details/15962797
 
+---
+## 代码
+
+[SGD算法](https://github.com/zanghyu/machine-learning/blob/master/linear%20regression/SGD.py)简单写了一下随机梯度下降算法的python代码，由于是初学，因此用的数据很小，只做理解用。其他几个梯度下降算法原理基本相似
+

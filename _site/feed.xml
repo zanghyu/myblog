@@ -5,8 +5,8 @@
     <description>关于人工智能与机器学习 | 臧宏宇，AI designer, AI developer | 这里是 @eaves臧宏宇 的个人博客。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 08 Apr 2017 20:48:55 +0800</pubDate>
-    <lastBuildDate>Sat, 08 Apr 2017 20:48:55 +0800</lastBuildDate>
+    <pubDate>Thu, 13 Apr 2017 15:12:43 +0800</pubDate>
+    <lastBuildDate>Thu, 13 Apr 2017 15:12:43 +0800</lastBuildDate>
     <generator>Jekyll v3.4.1</generator>
     
       <item>
@@ -208,6 +208,11 @@
 &lt;p&gt;&lt;a href=&quot;http://baike.baidu.com/link?url=yp9q-n_7-hi2RFlvv3so1Ek1bZx1Lmrp-Rn1zXJNxjaryr6xSm1hMe4fGwPdCPPiF8lMduRvVij0bwUUe3LBLdfCfIGtPFLy6xj6t42T33XStVz4GLDe-ilMMrYJm72g&quot;&gt;logistic回归&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/dongtingzhizi/article/details/15962797&quot;&gt;logistic回归总结&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h2 id=&quot;代码&quot;&gt;代码&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/zanghyu/machine-learning/blob/master/linear%20regression/SGD.py&quot;&gt;SGD算法&lt;/a&gt;简单写了一下随机梯度下降算法的python代码，由于是初学，因此用的数据很小，只做理解用。其他几个梯度下降算法原理基本相似&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 05 Apr 2017 22:00:00 +0800</pubDate>
