@@ -10,7 +10,7 @@
     <meta name="keywords"  content="臧宏宇, Zhy, zanghyu, eaves, @白蜡下的搬运工, 臧宏宇的博客, ZhY Blog, 博客, 个人网站, 互联网,机器学习，人工智能">
     <meta name="theme-color" content="#000000">
     
-    <title>第一篇博文 - 臧宏宇的博客 | ZhY Blog</title>
+    <title>相似度计算方法 - 臧宏宇的博客 | ZhY Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/03/08/first-article/">
+    <link rel="canonical" href="http://localhost:4000/2017/05/02/relation/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -157,13 +157,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-basic.jpg" width="0" height="0"> -->
+<!-- <img src="/" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-basic.jpg')
+        background-image: url('/')
     }
 
     
@@ -183,15 +183,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                        <a class="tag" href="/tags/#机器学习算法" title="机器学习算法">机器学习算法</a>
                         
                     </div>
-                    <h1>第一篇博文</h1>
+                    <h1>相似度计算方法</h1>
                     
                     
-                    <h2 class="subheading">打开了新世界的大门</h2>
+                    <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by ZhY on March 8, 2017</span>
+                    <span class="meta">Posted by ZhY on May 2, 2017</span>
                 </div>
             </div>
         </div>
@@ -209,16 +209,67 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="缘由">缘由</h2>
-<p>大学之后就一直想做一个技术性博客，最开始选择的是<a href="http://www.csdn.net/" title="csdn.net">csdn</a>，想在里面写一些自己的随笔和遇到的各种坑，但是无奈<a href="http://www.csdn.net/" title="csdn.net">csdn</a>的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。</p>
+				<p>在实际应用时我们常用不同的相似度进行聚类，接下来介绍几种常用的相似度计算方法。</p>
 
-<p>后来还是因为看到了同学<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>的自己搭建的博客，才觉得好像自己搭一个更方便一点，而且可以完全按照自己喜欢的来设计，也不用受限于那些博客网站的对于格式的要求。所以就向<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>请教了一下，被告知可以用<a href="https://pages.github.com/" title="GitHub Pages">github pages</a> + <a href="http://jekyll.com.cn/" title="jekyll">jekyll</a> 搭建。我又去知乎搜了一下<a href="http://jekyll.com.cn/" title="jekyll">jekyll</a>的模板，于是发现了大神<a href="https://huangxuan.me/" title="Hux Blog">@Hux</a>的博客……不得不说，这个模板真的干净又好看，是我喜欢的类型。</p>
+<h2 id="余弦相似度">余弦相似度</h2>
 
-<p>其实想一想，大学以来没有接过什么项目，自己总是没有方向的东学一点西学一点，导致现在都还没有一点自己的技术优势，还是有点后悔的。大二之后就对机器学习有些兴趣，再加上中间也看了一些关于机器学习、人工智能这方面的书，将来读研也可能会选择相关方向，所以就这样准备把机器学习当做这个博客的主要tag了。 希望将来有机会可以接触到一些相关领域的大牛，能够多向他们学习。</p>
+<script type="math/tex; mode=display">cos(\theta) = \frac{a^T b}{|a|\dot|b|}</script>
 
-<p>毕竟是个战五渣，还是从头开始认认真真学起吧！</p>
+<p>余弦相似度是用两个信息的夹角余弦值进行度量，当二者夹角余弦值等于1时，代表二者完全重复（可以通过这个方法去重）；当二者夹角余弦值接近于1时，代表其相似度越高；余弦越小代表相似度越低。</p>
 
-<hr />
+<h2 id="调整余弦相似度">调整余弦相似度</h2>
+
+<p>余弦相似度更多的是从方向上区分差异，而对绝对的数值不敏感，因此没法衡量每个维度上数值的差异，会导致这样一种情况：</p>
+
+<p>用户对内容评分，按5分制，X和Y两个用户对两个内容的评分分别为（1,2）和（4,5），使用余弦相似度得到的结果是0.98，两者极为相似。</p>
+
+<p>但从评分上看X似乎不喜欢2这个 内容，而Y则比较喜欢，余弦相似度对数值的不敏感导致了结果的误差，需要修正这种不合理性就出现了调整余弦相似度，即所有维度上的数值都减去一个均值，比如X和Y的评分均值都是3，那么调整后为（-2，-1）和（1,2），再用余弦相似度计算，得到-0.8，相似度为负值并且差异不小，但显然更加符合现实。</p>
+
+<h2 id="闵可夫斯基距离欧氏距离">闵可夫斯基距离/欧氏距离</h2>
+
+<script type="math/tex; mode=display">dist(X,Y) = (\sum_{i=1}^{n}{|x_i-y_i|}^p)^{\frac 1 p}</script>
+
+<h4 id="欧氏距离与余弦相似度的不同">欧氏距离与余弦相似度的不同</h4>
+
+<p>余弦相似度侧重于方向上的差异，而不是位置上的差异。</p>
+
+<p>欧氏距离能够体现个体数值特征的绝对差异，所以更多的用于需要从维度的数值大小中体现差异的分析，如使用用户行为指标分析用户价值的相似度或差异。</p>
+
+<p>余弦距离更多的是从方向上区分差异，而对绝对的数值不敏感，更多的用于使用用户对内容评分来区分兴趣的相似度和差异，同时修正了用户间可能存在的度量标准不统一的问题（因为余弦距离对绝对数值不敏感）。</p>
+
+<h2 id="杰卡德相似系数">杰卡德相似系数</h2>
+
+<script type="math/tex; mode=display">J(A,B) = \frac{|A\cap B|}{|A\cup B|}</script>
+
+<p>对于杰卡德相似系数或杰卡德距离来说，它处理的都是非对称二元变量。非对称的意思是指状态的两个输出不是同等重要的</p>
+
+<h2 id="pearson相似系数">Pearson相似系数</h2>
+
+<script type="math/tex; mode=display">\rho_XY = \frac{cov(X,Y)}{\sigma_X \sigma_Y} = \frac{E{|(X-\mu_X)(Y-\mu_Y)|}}{\sigma_X \sigma_Y} = \frac{\sum_{i=1}^n(X_i-\mu_X)(Y_i-\mu_Y)}{\sqrt{\sum_{i=1}^n(X_i-\mu_X)^2}\sqrt{\sum_{i=1}^n(Y_i-\mu_Y)^2}}</script>
+
+<p>相关系数</p>
+
+<p>0.8-1.0 极强相关</p>
+
+<p>0.6-0.8 强相关</p>
+
+<p>0.4-0.6 中等程度相关</p>
+
+<p>0.2-0.4 弱相关</p>
+
+<p>0.0-0.2 极弱相关或无相关</p>
+
+<p>需要注意的是，pearson相关系数等于0，代表二者不相关，但不代表二者相互独立。</p>
+
+<h2 id="相对熵k-l距离">相对熵(K-L距离)</h2>
+
+<script type="math/tex; mode=display">D(p||q) = \sum_x p(x)log\frac{p(x)}{q(x)} = E_{p(x)}log\frac{p(x)}{q(x)}</script>
+
+<p>KL距离具有非对称性，即</p>
+
+<script type="math/tex; mode=display">D(p||q) \neq D(q||p)</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
 
@@ -228,12 +279,17 @@
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/03/08/first-article"
-                    data-title="第一篇博文"
-                    data-url="http://localhost:4000/2017/03/08/first-article/"
-                    data-images="http://localhost:4000/img/post-bg-basic.jpg"
-                    data-content="缘由
-大学之后就一直想做一个技术性博客，最开始选择的是csdn，想在里面写一些自己的随笔和遇到的各种坑，但是无奈csdn的界面有点丑……再加上编辑器实在难... | 臧宏宇的博客 | ZhY Blog " >
+                    data-thread-key="/2017/05/02/relation"
+                    data-title="相似度计算方法"
+                    data-url="http://localhost:4000/2017/05/02/relation/"
+                    data-images="http://localhost:4000/"
+                    data-content="在实际应用时我们常用不同的相似度进行聚类，接下来介绍几种常用的相似度计算方法。
+
+余弦相似度
+
+
+
+余弦相似度是用两个信息的夹角余弦值进行度量，当二者夹角... | 臧宏宇的博客 | ZhY Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -255,13 +311,13 @@
 
                 <ul class="pager">
                     
-                    
-                    <li class="next">
-                        <a href="/2017/03/10/trust-page/" data-toggle="tooltip" data-placement="top" title="PageRank算法&TrustRank算法">
-                        Next<br>
-                        <span>PageRank算法&TrustRank算法</span>
+                    <li class="previous">
+                        <a href="/2017/04/27/nuton/" data-toggle="tooltip" data-placement="top" title="梯度下降和拟牛顿">
+                        Previous<br>
+                        <span>梯度下降和拟牛顿</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
@@ -270,9 +326,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/03/08/first-article"
-                        data-title="第一篇博文"
-                        data-url="http://localhost:4000/2017/03/08/first-article/" >
+                        data-thread-key="/2017/05/02/relation"
+                        data-title="相似度计算方法"
+                        data-url="http://localhost:4000/2017/05/02/relation/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

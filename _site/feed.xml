@@ -5,15 +5,229 @@
     <description>关于人工智能与机器学习 | 臧宏宇，AI designer, AI developer | 这里是 @eaves臧宏宇 的个人博客。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 13 Apr 2017 15:12:43 +0800</pubDate>
-    <lastBuildDate>Thu, 13 Apr 2017 15:12:43 +0800</lastBuildDate>
+    <pubDate>Mon, 29 May 2017 15:53:07 +0800</pubDate>
+    <lastBuildDate>Mon, 29 May 2017 15:53:07 +0800</lastBuildDate>
     <generator>Jekyll v3.4.1</generator>
     
       <item>
-        <title>线性回归及广义线性回归算法</title>
-        <description>&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&quot;&gt;&lt;/script&gt;
+        <title>相似度计算方法</title>
+        <description>&lt;p&gt;在实际应用时我们常用不同的相似度进行聚类，接下来介绍几种常用的相似度计算方法。&lt;/p&gt;
 
-&lt;h2 id=&quot;线性回归预备公式&quot;&gt;线性回归预备公式&lt;/h2&gt;
+&lt;h2 id=&quot;余弦相似度&quot;&gt;余弦相似度&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;cos(\theta) = \frac{a^T b}{|a|\dot|b|}&lt;/script&gt;
+
+&lt;p&gt;余弦相似度是用两个信息的夹角余弦值进行度量，当二者夹角余弦值等于1时，代表二者完全重复（可以通过这个方法去重）；当二者夹角余弦值接近于1时，代表其相似度越高；余弦越小代表相似度越低。&lt;/p&gt;
+
+&lt;h2 id=&quot;调整余弦相似度&quot;&gt;调整余弦相似度&lt;/h2&gt;
+
+&lt;p&gt;余弦相似度更多的是从方向上区分差异，而对绝对的数值不敏感，因此没法衡量每个维度上数值的差异，会导致这样一种情况：&lt;/p&gt;
+
+&lt;p&gt;用户对内容评分，按5分制，X和Y两个用户对两个内容的评分分别为（1,2）和（4,5），使用余弦相似度得到的结果是0.98，两者极为相似。&lt;/p&gt;
+
+&lt;p&gt;但从评分上看X似乎不喜欢2这个 内容，而Y则比较喜欢，余弦相似度对数值的不敏感导致了结果的误差，需要修正这种不合理性就出现了调整余弦相似度，即所有维度上的数值都减去一个均值，比如X和Y的评分均值都是3，那么调整后为（-2，-1）和（1,2），再用余弦相似度计算，得到-0.8，相似度为负值并且差异不小，但显然更加符合现实。&lt;/p&gt;
+
+&lt;h2 id=&quot;闵可夫斯基距离欧氏距离&quot;&gt;闵可夫斯基距离/欧氏距离&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;dist(X,Y) = (\sum_{i=1}^{n}{|x_i-y_i|}^p)^{\frac 1 p}&lt;/script&gt;
+
+&lt;h4 id=&quot;欧氏距离与余弦相似度的不同&quot;&gt;欧氏距离与余弦相似度的不同&lt;/h4&gt;
+
+&lt;p&gt;余弦相似度侧重于方向上的差异，而不是位置上的差异。&lt;/p&gt;
+
+&lt;p&gt;欧氏距离能够体现个体数值特征的绝对差异，所以更多的用于需要从维度的数值大小中体现差异的分析，如使用用户行为指标分析用户价值的相似度或差异。&lt;/p&gt;
+
+&lt;p&gt;余弦距离更多的是从方向上区分差异，而对绝对的数值不敏感，更多的用于使用用户对内容评分来区分兴趣的相似度和差异，同时修正了用户间可能存在的度量标准不统一的问题（因为余弦距离对绝对数值不敏感）。&lt;/p&gt;
+
+&lt;h2 id=&quot;杰卡德相似系数&quot;&gt;杰卡德相似系数&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(A,B) = \frac{|A\cap B|}{|A\cup B|}&lt;/script&gt;
+
+&lt;p&gt;对于杰卡德相似系数或杰卡德距离来说，它处理的都是非对称二元变量。非对称的意思是指状态的两个输出不是同等重要的&lt;/p&gt;
+
+&lt;h2 id=&quot;pearson相似系数&quot;&gt;Pearson相似系数&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\rho_XY = \frac{cov(X,Y)}{\sigma_X \sigma_Y} = \frac{E{|(X-\mu_X)(Y-\mu_Y)|}}{\sigma_X \sigma_Y} = \frac{\sum_{i=1}^n(X_i-\mu_X)(Y_i-\mu_Y)}{\sqrt{\sum_{i=1}^n(X_i-\mu_X)^2}\sqrt{\sum_{i=1}^n(Y_i-\mu_Y)^2}}&lt;/script&gt;
+
+&lt;p&gt;相关系数&lt;/p&gt;
+
+&lt;p&gt;0.8-1.0 极强相关&lt;/p&gt;
+
+&lt;p&gt;0.6-0.8 强相关&lt;/p&gt;
+
+&lt;p&gt;0.4-0.6 中等程度相关&lt;/p&gt;
+
+&lt;p&gt;0.2-0.4 弱相关&lt;/p&gt;
+
+&lt;p&gt;0.0-0.2 极弱相关或无相关&lt;/p&gt;
+
+&lt;p&gt;需要注意的是，pearson相关系数等于0，代表二者不相关，但不代表二者相互独立。&lt;/p&gt;
+
+&lt;h2 id=&quot;相对熵k-l距离&quot;&gt;相对熵(K-L距离)&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;D(p||q) = \sum_x p(x)log\frac{p(x)}{q(x)} = E_{p(x)}log\frac{p(x)}{q(x)}&lt;/script&gt;
+
+&lt;p&gt;KL距离具有非对称性，即&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;D(p||q) \neq D(q||p)&lt;/script&gt;
+
+&lt;script src=&quot;//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+</description>
+        <pubDate>Tue, 02 May 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/05/02/relation/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/05/02/relation/</guid>
+        
+        <category>机器学习算法</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>梯度下降和拟牛顿</title>
+        <description>&lt;h2 id=&quot;梯度下降&quot;&gt;梯度下降&lt;/h2&gt;
+
+&lt;p&gt;在[线性回归][1]中，我们分析了梯度下降算法，但是仍然存在一些问题。在梯度下降过程中，我们无法确定学习率&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;的取值。&lt;/p&gt;
+
+&lt;p&gt;首先分析固定学习率，在学习率固定的情况下，往往收敛的比较慢，效果并不理想。&lt;/p&gt;
+
+&lt;p&gt;因此我们考虑学习率设置应该尽量在斜率大的地方用小学习率，而在斜率小的地方用大学习率。&lt;/p&gt;
+
+&lt;p&gt;由于在梯度下降过程中，&lt;script type=&quot;math/tex&quot;&gt;f(x_{k+1})=f(x_{k}+\alpha d_k)&lt;/script&gt;,因此我们可以将其看做关于&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;的函数&lt;script type=&quot;math/tex&quot;&gt;h(\alpha)&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h(\alpha) = f(x_k + \alpha d_k),\quad \alpha&gt;0&lt;/script&gt;
+
+&lt;p&gt;由于梯度下降是寻找最小的&lt;script type=&quot;math/tex&quot;&gt;f(x)&lt;/script&gt;，因此在&lt;script type=&quot;math/tex&quot;&gt;x_k&lt;/script&gt;和&lt;script type=&quot;math/tex&quot;&gt;d_k&lt;/script&gt;给定情况下，应寻找最小的&lt;script type=&quot;math/tex&quot;&gt;f(x_k+\alpha d_k)&lt;/script&gt;,即：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha = arg min_{\alpha&gt;0} h(\alpha)=argmin_{\alpha&gt;0} f(x_k+\alpha d_k)&lt;/script&gt;
+
+&lt;p&gt;则局部最小值&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;满足&lt;script type=&quot;math/tex&quot;&gt;h'(\alpha) = 0&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;可以采用二次差值线性搜索等方法进行迭代寻找。&lt;/p&gt;
+
+&lt;h2 id=&quot;牛顿法&quot;&gt;牛顿法&lt;/h2&gt;
+
+&lt;p&gt;将梯度下降的式子变为&lt;script type=&quot;math/tex&quot;&gt;x_{k+1}=x_k-\frac{f'(x_k)}{f''(x_k)}&lt;/script&gt;即为牛顿法。&lt;/p&gt;
+
+&lt;p&gt;牛顿法相当于对于一阶导数进行了一些修正，具有二次收敛性，但是初始点必须尽量靠近极值点，否则可能不收敛。而且若目标函数的Hessian矩阵无法保持正定或者是奇异的，则牛顿法会出现问题。&lt;/p&gt;
+
+&lt;h2 id=&quot;修正牛顿方向&quot;&gt;修正牛顿方向&lt;/h2&gt;
+
+&lt;p&gt;(1)令搜索方向改为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/nuton/alg-01.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(2)用正定矩阵&lt;script type=&quot;math/tex&quot;&gt;G_k+v_kI&lt;/script&gt;替代Hessian矩阵&lt;script type=&quot;math/tex&quot;&gt;G_k&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;拟牛顿法&quot;&gt;拟牛顿法&lt;/h2&gt;
+
+&lt;p&gt;由于Hessian矩阵求逆比较复杂，因此选用一些近似的矩阵来代替Hessian矩阵。所以产生了BFGS算法以及LBFGS算法&lt;/p&gt;
+
+&lt;script src=&quot;//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+</description>
+        <pubDate>Thu, 27 Apr 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/04/27/nuton/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/27/nuton/</guid>
+        
+        <category>机器学习算法</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>拉格朗日乘子法</title>
+        <description>&lt;h2 id=&quot;拉格朗日乘子法&quot;&gt;拉格朗日乘子法&lt;/h2&gt;
+
+&lt;p&gt;拉格朗日乘子法和KKT条件时求解约束优化问题的重要方法，在&lt;strong&gt;有等式的约束情况下&lt;/strong&gt;使用&lt;strong&gt;拉格朗日乘子法&lt;/strong&gt;，在&lt;strong&gt;有不等式约束情况下&lt;/strong&gt;使用&lt;strong&gt;KKT条件&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;前提： 只有当目标函数为凸函数时，使用这两种方法才能保证求得的时最优解。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;min\quad f(x)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s.t. h_i(x)=0    i=1,2,...,n&lt;/script&gt;
+
+&lt;p&gt;转换为&lt;script type=&quot;math/tex&quot;&gt;\qquad\qquad\qquad\qquad\qquad min\quad f(x)+\sum_{i=1}^n\lambda_i h_i(x)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;其中系数&lt;script type=&quot;math/tex&quot;&gt;\lambda_i&lt;/script&gt;称为拉格朗日乘子。&lt;/p&gt;
+
+&lt;p&gt;为什么可以这样做呢？&lt;/p&gt;
+
+&lt;p&gt;首先来看一个二维的优化问题：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;max\quad f(x,y)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s.t. g(x,y)=c&lt;/script&gt;
+
+&lt;p&gt;我们可以画图来辅助思考&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/lagrange/alg-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其中绿线标出的时约束g(x,y)=c的轨迹，蓝线是f的等高线。箭头表示斜率。&lt;/p&gt;
+
+&lt;p&gt;从图上可以看出，在最优解处，f和g的斜率平行。&lt;/p&gt;
+
+&lt;p&gt;即 &lt;script type=&quot;math/tex&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;一旦求出&lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt;的值，即可求出极值的对应点。&lt;/p&gt;
+
+&lt;p&gt;因为在&lt;script type=&quot;math/tex&quot;&gt;F(x,y)&lt;/script&gt;到达极值的时候，&lt;script type=&quot;math/tex&quot;&gt;g(x,y)-c&lt;/script&gt;为零。因此&lt;script type=&quot;math/tex&quot;&gt;F(x,y)&lt;/script&gt;在到达极值时与&lt;script type=&quot;math/tex&quot;&gt;f(x,y)&lt;/script&gt;相等。&lt;/p&gt;
+
+&lt;p&gt;因此，对&lt;script type=&quot;math/tex&quot;&gt;F(x,y)&lt;/script&gt;中的&lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;y&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt;求一节偏导，可求出&lt;script type=&quot;math/tex&quot;&gt;F&lt;/script&gt;的驻点。如果这个实际问题的最大或最小值存在,一般来说驻点唯一，因此若只求出一个驻点，则该驻点即为极值点。&lt;/p&gt;
+
+&lt;p&gt;例如&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;min\quad xy&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x^2+y^2=1&lt;/script&gt;
+
+&lt;p&gt;则我们可以将其化为拉格朗日函数 &lt;script type=&quot;math/tex&quot;&gt;h(x,y)=xy-\lambda(x^2+y^2-1)&lt;/script&gt;，则:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial h(x,y)}{\partial x} = y-2\lambda x = 0&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial h(x,y)}{\partial y} = x - 2\lambda y = 0&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial h(x,y)}{\partial \lambda} = -x^2-y^2+1 = 0&lt;/script&gt;
+
+&lt;p&gt;上面三个式子联立可得 &lt;script type=&quot;math/tex&quot;&gt;\lambda = \frac 1 2 , x = y = \frac {\sqrt{2}}{2}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;可以得出 &lt;script type=&quot;math/tex&quot;&gt;\qquad\qquad\qquad\qquad\qquad max\quad xy = \frac 1 2&lt;/script&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;kkt条件&quot;&gt;KKT条件&lt;/h2&gt;
+
+&lt;p&gt;KKT条件是解决不等式约束的方法。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;min\quad f(X)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s.t.\quad h_j(X) = 0\qquad j=1,2,...,p \\
+
+\qquad g_k(X)\leq0\qquad k=1,2,...,q&lt;/script&gt;
+
+&lt;p&gt;转化为&lt;script type=&quot;math/tex&quot;&gt;\qquad\qquad\qquad\qquad\qquad L(X,j,k) = f(X) + \sum_{j=1}^p \lambda_j h_j(X) + \sum_{k=1}^q \mu_k g_k(X)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;应满足：&lt;/p&gt;
+
+&lt;p&gt;1) &lt;script type=&quot;math/tex&quot;&gt;\frac{\partial L(X,j,k)}{\partial X} = 0&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;2) &lt;script type=&quot;math/tex&quot;&gt;\mu_k g_k(X) = 0&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;3) &lt;script type=&quot;math/tex&quot;&gt;\lambda_j \neq 0&lt;/script&gt;,&lt;script type=&quot;math/tex&quot;&gt;\mu_k \ge 0&lt;/script&gt;&lt;/p&gt;
+
+&lt;script src=&quot;//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+</description>
+        <pubDate>Thu, 27 Apr 2017 22:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/04/27/lagrangemultiplier/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/04/27/lagrangemultiplier/</guid>
+        
+        <category>优化算法</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>线性回归及广义线性回归算法</title>
+        <description>&lt;h2 id=&quot;线性回归预备公式&quot;&gt;线性回归预备公式&lt;/h2&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial X\theta }{\partial \theta}= X^T&lt;/script&gt;
 
@@ -213,6 +427,8 @@
 &lt;h2 id=&quot;代码&quot;&gt;代码&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/zanghyu/machine-learning/blob/master/linear%20regression/SGD.py&quot;&gt;SGD算法&lt;/a&gt;简单写了一下随机梯度下降算法的python代码，由于是初学，因此用的数据很小，只做理解用。其他几个梯度下降算法原理基本相似&lt;/p&gt;
+
+&lt;script src=&quot;//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
 
 </description>
         <pubDate>Wed, 05 Apr 2017 22:00:00 +0800</pubDate>

@@ -1,0 +1,38 @@
+
+
+
+
+
+ipython notebook
+pandas
+
+观察数据集特征时候可以用quantile()进行分割。
+train_df.quantile([.75, .8])
+
+或者train_df.describe(percentiles=[.7,.8])
+
+每个属性集都应该找到其临界值以及特点
+
+
+
+train_df.describe(include=['O'])
+意思是查看Object的几个属性
+
+
+pd.read_csv()读取csv
+
+train_df.columns.values  查看属性名
+
+train_df.head()查看头部信息
+
+train_df.info()查看总体的信息
+
+train_df.dropna()丢弃掉所有nan的部分
+
+train_df.fillna(value=)补充nan为
+
+数据应当离散化
+
+grid = sns.FacetGrid(train_df, col='Survived')
+grid.map(plt.hist, 'Age', bins=20)
+这里的bins代表的是柱状图一共划分了20个长方形

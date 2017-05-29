@@ -10,7 +10,7 @@
     <meta name="keywords"  content="臧宏宇, Zhy, zanghyu, eaves, @白蜡下的搬运工, 臧宏宇的博客, ZhY Blog, 博客, 个人网站, 互联网,机器学习，人工智能">
     <meta name="theme-color" content="#000000">
     
-    <title>第一篇博文 - 臧宏宇的博客 | ZhY Blog</title>
+    <title>梯度下降和拟牛顿 - 臧宏宇的博客 | ZhY Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/03/08/first-article/">
+    <link rel="canonical" href="http://localhost:4000/2017/04/27/nuton/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -157,13 +157,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-basic.jpg" width="0" height="0"> -->
+<!-- <img src="/" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-basic.jpg')
+        background-image: url('/')
     }
 
     
@@ -183,15 +183,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                        <a class="tag" href="/tags/#机器学习算法" title="机器学习算法">机器学习算法</a>
                         
                     </div>
-                    <h1>第一篇博文</h1>
+                    <h1>梯度下降和拟牛顿</h1>
                     
                     
-                    <h2 class="subheading">打开了新世界的大门</h2>
+                    <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by ZhY on March 8, 2017</span>
+                    <span class="meta">Posted by ZhY on April 27, 2017</span>
                 </div>
             </div>
         </div>
@@ -209,16 +209,45 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="缘由">缘由</h2>
-<p>大学之后就一直想做一个技术性博客，最开始选择的是<a href="http://www.csdn.net/" title="csdn.net">csdn</a>，想在里面写一些自己的随笔和遇到的各种坑，但是无奈<a href="http://www.csdn.net/" title="csdn.net">csdn</a>的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。</p>
+				<h2 id="梯度下降">梯度下降</h2>
 
-<p>后来还是因为看到了同学<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>的自己搭建的博客，才觉得好像自己搭一个更方便一点，而且可以完全按照自己喜欢的来设计，也不用受限于那些博客网站的对于格式的要求。所以就向<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>请教了一下，被告知可以用<a href="https://pages.github.com/" title="GitHub Pages">github pages</a> + <a href="http://jekyll.com.cn/" title="jekyll">jekyll</a> 搭建。我又去知乎搜了一下<a href="http://jekyll.com.cn/" title="jekyll">jekyll</a>的模板，于是发现了大神<a href="https://huangxuan.me/" title="Hux Blog">@Hux</a>的博客……不得不说，这个模板真的干净又好看，是我喜欢的类型。</p>
+<p>在[线性回归][1]中，我们分析了梯度下降算法，但是仍然存在一些问题。在梯度下降过程中，我们无法确定学习率<script type="math/tex">\alpha</script>的取值。</p>
 
-<p>其实想一想，大学以来没有接过什么项目，自己总是没有方向的东学一点西学一点，导致现在都还没有一点自己的技术优势，还是有点后悔的。大二之后就对机器学习有些兴趣，再加上中间也看了一些关于机器学习、人工智能这方面的书，将来读研也可能会选择相关方向，所以就这样准备把机器学习当做这个博客的主要tag了。 希望将来有机会可以接触到一些相关领域的大牛，能够多向他们学习。</p>
+<p>首先分析固定学习率，在学习率固定的情况下，往往收敛的比较慢，效果并不理想。</p>
 
-<p>毕竟是个战五渣，还是从头开始认认真真学起吧！</p>
+<p>因此我们考虑学习率设置应该尽量在斜率大的地方用小学习率，而在斜率小的地方用大学习率。</p>
 
-<hr />
+<p>由于在梯度下降过程中，<script type="math/tex">f(x_{k+1})=f(x_{k}+\alpha d_k)</script>,因此我们可以将其看做关于<script type="math/tex">\alpha</script>的函数<script type="math/tex">h(\alpha)</script></p>
+
+<script type="math/tex; mode=display">h(\alpha) = f(x_k + \alpha d_k),\quad \alpha>0</script>
+
+<p>由于梯度下降是寻找最小的<script type="math/tex">f(x)</script>，因此在<script type="math/tex">x_k</script>和<script type="math/tex">d_k</script>给定情况下，应寻找最小的<script type="math/tex">f(x_k+\alpha d_k)</script>,即：</p>
+
+<script type="math/tex; mode=display">\alpha = arg min_{\alpha>0} h(\alpha)=argmin_{\alpha>0} f(x_k+\alpha d_k)</script>
+
+<p>则局部最小值<script type="math/tex">\alpha</script>满足<script type="math/tex">h'(\alpha) = 0</script></p>
+
+<p><script type="math/tex">\alpha</script>可以采用二次差值线性搜索等方法进行迭代寻找。</p>
+
+<h2 id="牛顿法">牛顿法</h2>
+
+<p>将梯度下降的式子变为<script type="math/tex">x_{k+1}=x_k-\frac{f'(x_k)}{f''(x_k)}</script>即为牛顿法。</p>
+
+<p>牛顿法相当于对于一阶导数进行了一些修正，具有二次收敛性，但是初始点必须尽量靠近极值点，否则可能不收敛。而且若目标函数的Hessian矩阵无法保持正定或者是奇异的，则牛顿法会出现问题。</p>
+
+<h2 id="修正牛顿方向">修正牛顿方向</h2>
+
+<p>(1)令搜索方向改为：</p>
+
+<p><img src="/img/in-post/nuton/alg-01.jpg" alt="" /></p>
+
+<p>(2)用正定矩阵<script type="math/tex">G_k+v_kI</script>替代Hessian矩阵<script type="math/tex">G_k</script></p>
+
+<h2 id="拟牛顿法">拟牛顿法</h2>
+
+<p>由于Hessian矩阵求逆比较复杂，因此选用一些近似的矩阵来代替Hessian矩阵。所以产生了BFGS算法以及LBFGS算法</p>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
 
@@ -228,12 +257,15 @@
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/03/08/first-article"
-                    data-title="第一篇博文"
-                    data-url="http://localhost:4000/2017/03/08/first-article/"
-                    data-images="http://localhost:4000/img/post-bg-basic.jpg"
-                    data-content="缘由
-大学之后就一直想做一个技术性博客，最开始选择的是csdn，想在里面写一些自己的随笔和遇到的各种坑，但是无奈csdn的界面有点丑……再加上编辑器实在难... | 臧宏宇的博客 | ZhY Blog " >
+                    data-thread-key="/2017/04/27/nuton"
+                    data-title="梯度下降和拟牛顿"
+                    data-url="http://localhost:4000/2017/04/27/nuton/"
+                    data-images="http://localhost:4000/"
+                    data-content="梯度下降
+
+在[线性回归][1]中，我们分析了梯度下降算法，但是仍然存在一些问题。在梯度下降过程中，我们无法确定学习率的取值。
+
+首先分析固定学习率，在学... | 臧宏宇的博客 | ZhY Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -255,11 +287,18 @@
 
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/2017/04/27/lagrangemultiplier/" data-toggle="tooltip" data-placement="top" title="拉格朗日乘子法">
+                        Previous<br>
+                        <span>拉格朗日乘子法</span>
+                        </a>
+                    </li>
+                    
                     
                     <li class="next">
-                        <a href="/2017/03/10/trust-page/" data-toggle="tooltip" data-placement="top" title="PageRank算法&TrustRank算法">
+                        <a href="/2017/05/02/relation/" data-toggle="tooltip" data-placement="top" title="相似度计算方法">
                         Next<br>
-                        <span>PageRank算法&TrustRank算法</span>
+                        <span>相似度计算方法</span>
                         </a>
                     </li>
                     
@@ -270,9 +309,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/03/08/first-article"
-                        data-title="第一篇博文"
-                        data-url="http://localhost:4000/2017/03/08/first-article/" >
+                        data-thread-key="/2017/04/27/nuton"
+                        data-title="梯度下降和拟牛顿"
+                        data-url="http://localhost:4000/2017/04/27/nuton/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

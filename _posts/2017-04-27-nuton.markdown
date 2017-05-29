@@ -1,0 +1,52 @@
+---
+layout:     post
+title:      "梯度下降和拟牛顿"
+date:       2017-04-27 14:00:00
+author:     "ZhY"
+header-img: ""
+header-mask: 0.3
+catalog:    true
+tags:
+    - 机器学习算法
+---
+
+## 梯度下降
+
+在[线性回归][1]中，我们分析了梯度下降算法，但是仍然存在一些问题。在梯度下降过程中，我们无法确定学习率$$\alpha$$的取值。
+
+首先分析固定学习率，在学习率固定的情况下，往往收敛的比较慢，效果并不理想。
+
+因此我们考虑学习率设置应该尽量在斜率大的地方用小学习率，而在斜率小的地方用大学习率。
+
+由于在梯度下降过程中，$$f(x_{k+1})=f(x_{k}+\alpha d_k)$$,因此我们可以将其看做关于$$\alpha$$的函数$$h(\alpha)$$
+
+$$h(\alpha) = f(x_k + \alpha d_k),\quad \alpha>0$$
+
+由于梯度下降是寻找最小的$$f(x)$$，因此在$$x_k$$和$$d_k$$给定情况下，应寻找最小的$$f(x_k+\alpha d_k)$$,即：
+
+$$\alpha = arg min_{\alpha>0} h(\alpha)=argmin_{\alpha>0} f(x_k+\alpha d_k)$$
+
+则局部最小值$$\alpha$$满足$$h'(\alpha) = 0$$
+
+$$\alpha$$可以采用二次差值线性搜索等方法进行迭代寻找。
+
+## 牛顿法
+
+将梯度下降的式子变为$$x_{k+1}=x_k-\frac{f'(x_k)}{f''(x_k)}$$即为牛顿法。
+
+牛顿法相当于对于一阶导数进行了一些修正，具有二次收敛性，但是初始点必须尽量靠近极值点，否则可能不收敛。而且若目标函数的Hessian矩阵无法保持正定或者是奇异的，则牛顿法会出现问题。
+
+## 修正牛顿方向
+
+(1)令搜索方向改为：
+
+![](/img/in-post/nuton/alg-01.jpg)
+
+(2)用正定矩阵$$G_k+v_kI$$替代Hessian矩阵$$G_k$$
+
+## 拟牛顿法
+
+由于Hessian矩阵求逆比较复杂，因此选用一些近似的矩阵来代替Hessian矩阵。所以产生了BFGS算法以及LBFGS算法
+
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

@@ -10,7 +10,7 @@ catalog:    true
 tags:
     - 机器学习算法
 ---
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 ## 线性回归预备公式
 
 $$\frac{\partial X\theta }{\partial \theta}= X^T$$
@@ -217,3 +217,4 @@ $$logit(p)=log \frac{p}{1-p} = log\frac{h_\theta(x)}{1-h_\theta(x)} = log \frac{
 
 [SGD算法](https://github.com/zanghyu/machine-learning/blob/master/linear%20regression/SGD.py)简单写了一下随机梯度下降算法的python代码，由于是初学，因此用的数据很小，只做理解用。其他几个梯度下降算法原理基本相似
 
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

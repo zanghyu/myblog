@@ -10,7 +10,7 @@
     <meta name="keywords"  content="臧宏宇, Zhy, zanghyu, eaves, @白蜡下的搬运工, 臧宏宇的博客, ZhY Blog, 博客, 个人网站, 互联网,机器学习，人工智能">
     <meta name="theme-color" content="#000000">
     
-    <title>第一篇博文 - 臧宏宇的博客 | ZhY Blog</title>
+    <title>拉格朗日乘子法 - 臧宏宇的博客 | ZhY Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/03/08/first-article/">
+    <link rel="canonical" href="http://localhost:4000/2017/04/27/lagrangemultiplier/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -183,15 +183,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                        <a class="tag" href="/tags/#优化算法" title="优化算法">优化算法</a>
                         
                     </div>
-                    <h1>第一篇博文</h1>
+                    <h1>拉格朗日乘子法</h1>
                     
                     
-                    <h2 class="subheading">打开了新世界的大门</h2>
+                    <h2 class="subheading">拉格朗日乘子法及KKT条件</h2>
                     
-                    <span class="meta">Posted by ZhY on March 8, 2017</span>
+                    <span class="meta">Posted by ZhY on April 27, 2017</span>
                 </div>
             </div>
         </div>
@@ -209,16 +209,83 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="缘由">缘由</h2>
-<p>大学之后就一直想做一个技术性博客，最开始选择的是<a href="http://www.csdn.net/" title="csdn.net">csdn</a>，想在里面写一些自己的随笔和遇到的各种坑，但是无奈<a href="http://www.csdn.net/" title="csdn.net">csdn</a>的界面有点丑……再加上编辑器实在难用，放代码、调整字体、回车换行、加图片等等都太不方便了，所以写了没几篇就放弃了。</p>
+				<h2 id="拉格朗日乘子法">拉格朗日乘子法</h2>
 
-<p>后来还是因为看到了同学<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>的自己搭建的博客，才觉得好像自己搭一个更方便一点，而且可以完全按照自己喜欢的来设计，也不用受限于那些博客网站的对于格式的要求。所以就向<a href="http://paradisehell.org/" title="ParadiseHell">@Tao</a>请教了一下，被告知可以用<a href="https://pages.github.com/" title="GitHub Pages">github pages</a> + <a href="http://jekyll.com.cn/" title="jekyll">jekyll</a> 搭建。我又去知乎搜了一下<a href="http://jekyll.com.cn/" title="jekyll">jekyll</a>的模板，于是发现了大神<a href="https://huangxuan.me/" title="Hux Blog">@Hux</a>的博客……不得不说，这个模板真的干净又好看，是我喜欢的类型。</p>
+<p>拉格朗日乘子法和KKT条件时求解约束优化问题的重要方法，在<strong>有等式的约束情况下</strong>使用<strong>拉格朗日乘子法</strong>，在<strong>有不等式约束情况下</strong>使用<strong>KKT条件</strong>。</p>
 
-<p>其实想一想，大学以来没有接过什么项目，自己总是没有方向的东学一点西学一点，导致现在都还没有一点自己的技术优势，还是有点后悔的。大二之后就对机器学习有些兴趣，再加上中间也看了一些关于机器学习、人工智能这方面的书，将来读研也可能会选择相关方向，所以就这样准备把机器学习当做这个博客的主要tag了。 希望将来有机会可以接触到一些相关领域的大牛，能够多向他们学习。</p>
+<p>前提： 只有当目标函数为凸函数时，使用这两种方法才能保证求得的时最优解。</p>
 
-<p>毕竟是个战五渣，还是从头开始认认真真学起吧！</p>
+<script type="math/tex; mode=display">min\quad f(x)</script>
 
-<hr />
+<script type="math/tex; mode=display">s.t. h_i(x)=0    i=1,2,...,n</script>
+
+<p>转换为<script type="math/tex">\qquad\qquad\qquad\qquad\qquad min\quad f(x)+\sum_{i=1}^n\lambda_i h_i(x)</script></p>
+
+<p>其中系数<script type="math/tex">\lambda_i</script>称为拉格朗日乘子。</p>
+
+<p>为什么可以这样做呢？</p>
+
+<p>首先来看一个二维的优化问题：</p>
+
+<script type="math/tex; mode=display">max\quad f(x,y)</script>
+
+<script type="math/tex; mode=display">s.t. g(x,y)=c</script>
+
+<p>我们可以画图来辅助思考</p>
+
+<p><img src="/img/in-post/lagrange/alg-01.png" alt="" /></p>
+
+<p>其中绿线标出的时约束g(x,y)=c的轨迹，蓝线是f的等高线。箭头表示斜率。</p>
+
+<p>从图上可以看出，在最优解处，f和g的斜率平行。</p>
+
+<p>即 <script type="math/tex"></script></p>
+
+<p>一旦求出<script type="math/tex">\lambda</script>的值，即可求出极值的对应点。</p>
+
+<p>因为在<script type="math/tex">F(x,y)</script>到达极值的时候，<script type="math/tex">g(x,y)-c</script>为零。因此<script type="math/tex">F(x,y)</script>在到达极值时与<script type="math/tex">f(x,y)</script>相等。</p>
+
+<p>因此，对<script type="math/tex">F(x,y)</script>中的<script type="math/tex">x</script>,<script type="math/tex">y</script>,<script type="math/tex">\lambda</script>求一节偏导，可求出<script type="math/tex">F</script>的驻点。如果这个实际问题的最大或最小值存在,一般来说驻点唯一，因此若只求出一个驻点，则该驻点即为极值点。</p>
+
+<p>例如</p>
+
+<script type="math/tex; mode=display">min\quad xy</script>
+
+<script type="math/tex; mode=display">x^2+y^2=1</script>
+
+<p>则我们可以将其化为拉格朗日函数 <script type="math/tex">h(x,y)=xy-\lambda(x^2+y^2-1)</script>，则:</p>
+
+<script type="math/tex; mode=display">\frac{\partial h(x,y)}{\partial x} = y-2\lambda x = 0</script>
+
+<script type="math/tex; mode=display">\frac{\partial h(x,y)}{\partial y} = x - 2\lambda y = 0</script>
+
+<script type="math/tex; mode=display">\frac{\partial h(x,y)}{\partial \lambda} = -x^2-y^2+1 = 0</script>
+
+<p>上面三个式子联立可得 <script type="math/tex">\lambda = \frac 1 2 , x = y = \frac {\sqrt{2}}{2}</script></p>
+
+<p>可以得出 <script type="math/tex">\qquad\qquad\qquad\qquad\qquad max\quad xy = \frac 1 2</script></p>
+
+<h2 id="kkt条件">KKT条件</h2>
+
+<p>KKT条件是解决不等式约束的方法。</p>
+
+<script type="math/tex; mode=display">min\quad f(X)</script>
+
+<script type="math/tex; mode=display">s.t.\quad h_j(X) = 0\qquad j=1,2,...,p \\
+
+\qquad g_k(X)\leq0\qquad k=1,2,...,q</script>
+
+<p>转化为<script type="math/tex">\qquad\qquad\qquad\qquad\qquad L(X,j,k) = f(X) + \sum_{j=1}^p \lambda_j h_j(X) + \sum_{k=1}^q \mu_k g_k(X)</script></p>
+
+<p>应满足：</p>
+
+<p>1) <script type="math/tex">\frac{\partial L(X,j,k)}{\partial X} = 0</script></p>
+
+<p>2) <script type="math/tex">\mu_k g_k(X) = 0</script></p>
+
+<p>3) <script type="math/tex">\lambda_j \neq 0</script>,<script type="math/tex">\mu_k \ge 0</script></p>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
 
@@ -228,12 +295,15 @@
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/03/08/first-article"
-                    data-title="第一篇博文"
-                    data-url="http://localhost:4000/2017/03/08/first-article/"
+                    data-thread-key="/2017/04/27/lagrangemultiplier"
+                    data-title="拉格朗日乘子法"
+                    data-url="http://localhost:4000/2017/04/27/lagrangemultiplier/"
                     data-images="http://localhost:4000/img/post-bg-basic.jpg"
-                    data-content="缘由
-大学之后就一直想做一个技术性博客，最开始选择的是csdn，想在里面写一些自己的随笔和遇到的各种坑，但是无奈csdn的界面有点丑……再加上编辑器实在难... | 臧宏宇的博客 | ZhY Blog " >
+                    data-content="拉格朗日乘子法
+
+拉格朗日乘子法和KKT条件时求解约束优化问题的重要方法，在有等式的约束情况下使用拉格朗日乘子法，在有不等式约束情况下使用KKT条件。
+
+... | 臧宏宇的博客 | ZhY Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -255,11 +325,18 @@
 
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/2017/04/05/linear-regression/" data-toggle="tooltip" data-placement="top" title="线性回归及广义线性回归算法">
+                        Previous<br>
+                        <span>线性回归及广义线性回归算法</span>
+                        </a>
+                    </li>
+                    
                     
                     <li class="next">
-                        <a href="/2017/03/10/trust-page/" data-toggle="tooltip" data-placement="top" title="PageRank算法&TrustRank算法">
+                        <a href="/2017/04/27/nuton/" data-toggle="tooltip" data-placement="top" title="梯度下降和拟牛顿">
                         Next<br>
-                        <span>PageRank算法&TrustRank算法</span>
+                        <span>梯度下降和拟牛顿</span>
                         </a>
                     </li>
                     
@@ -270,9 +347,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/03/08/first-article"
-                        data-title="第一篇博文"
-                        data-url="http://localhost:4000/2017/03/08/first-article/" >
+                        data-thread-key="/2017/04/27/lagrangemultiplier"
+                        data-title="拉格朗日乘子法"
+                        data-url="http://localhost:4000/2017/04/27/lagrangemultiplier/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
