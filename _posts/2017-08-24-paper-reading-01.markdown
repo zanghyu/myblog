@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      "A Few Useful Things to Know about Machine Learning 的阅读笔记"
+date:       2017-08-24 10:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 论文阅读
+---
+
 # A Few Useful Things to Know about Machine Learning 的阅读笔记
 
 ## 概述

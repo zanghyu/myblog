@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      "Kaggle titanic 笔记"
+date:       2017-05-9 10:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - kaggle笔记
+---
+
 # Kaggle titanic 笔记
 
 1.学会善用ipython notebook进行数据可视化和pandas进行数据处理
