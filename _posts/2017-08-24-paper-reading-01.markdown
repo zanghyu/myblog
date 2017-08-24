@@ -133,6 +133,7 @@ learning = representation + evaluation + optimization
 ## 总结
 
 其实这篇论文在我的理解里是指导进行机器学习项目的一个概述，说明了又哪些注意点哪些坑以及如何规避这些坑。但是有小部分，比如：高维空间的质量问题，还不太理解。不过还是很有意思的一篇论文，感觉花了几个小时时间看还是挺值得的。
+
 ---
 [1]:http://blog.csdn.net/thither_shore/article/details/52324776
 [2]:http://blog.csdn.net/nwpulei/article/details/8133851
