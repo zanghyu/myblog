@@ -1,0 +1,62 @@
+---
+layout:     post
+title:      "deeplearning.ai学习笔记02"
+subtitle:   "第二周"
+date:       2017-09-05 14:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 学习笔记
+---
+## 符号表
+
+约定的符号表如下：
+
+![](/img/in-post/nn&dl/note02-01.jpg)
+
+## Logistic Regression
+
+Logistic Regression和Linear Regression的关系：
+
+对于一个二分类问题(比如图片上是否是一只猫)，我们给出x，并求出$$\hat{y}$$,即该图片是猫的概率。对于Linear Regression来说，应满足：
+
+$$\hat{y} = (w^Tx+b) $$
+
+但是由于概率应该为0~1之间的一个数，而线性回归明显$$\hat{y}$$不是在0~1之间。因此我们将一个sigmoid函数，即：$$ \frac{1}{1+e^{-z}}$$，作用到$$w^Tx+b$$上。变为了：
+
+$$\hat{y} = \sigma(w^Tx+b)$$
+
+这种形式就是Logistic Regression。
+
+## 损失函数(误差函数)与成本函数
+
+在Logistic Regression中，我们想要知道训练的效果如何，因此要用损失函数来评价。损失函数不用$$\frac{1}{2}(\hat{y}-y)^2$$的原因是这个函数非凸。我们选择$$L(\hat{y},y) = - (ylog\hat{y}+(1-y)log(1-\hat{y}))$$作为损失函数。
+
+损失函数是评价对于单一样本来说训练效果的好坏，而评价w和b用在所有样本上的效果要用到成本函数：
+
+$$J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y{(i)})$$
+
+## 梯度下降
+
+这里Logistic Regression的成本函数我们希望能够尽量小，因此我们要想办法到达全局最小值，这个时候可以用到梯度下降的办法。对于$$J(w,b)$$,每次更新：
+
+$$ w:=w-\alpha\frac{dJ(w,b)}{dw} $$
+
+$$ b:=b-\alpha\frac{dJ(w,b)}{db} $$
+
+在编程时，一般用$$dw$$代替$$\frac{dJ(w,b)}{dw}$$
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
