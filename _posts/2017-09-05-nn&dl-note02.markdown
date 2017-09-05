@@ -48,6 +48,15 @@ $$ b:=b-\alpha\frac{dJ(w,b)}{db} $$
 
 在编程时，一般用$$dw$$代替$$\frac{dJ(w,b)}{dw}$$
 
+Logistic回归的算法流程为：
+
+![](/img/in-post/nn&dl/note02-02.jpg)
+
+![](/img/in-post/nn&dl/note02-03.jpg)
+
+## 向量化的优势
+
+上面的流程是使用了for循环，从i=1到i=m。事实上，向量化之后再计算会比直接使用for循环快的多(参照[向量化与非向量化时间对比][1])。
 
 
 
@@ -57,6 +66,11 @@ $$ b:=b-\alpha\frac{dJ(w,b)}{db} $$
 
 
 
+
+
+
+---
+[1]:https://github.com/zanghyu/machine-learning/blob/master/vectorization.ipynb
 
 
 <script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
