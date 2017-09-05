@@ -36,7 +36,7 @@ $$\hat{y} = \sigma(w^Tx+b)$$
 
 损失函数是评价对于单一样本来说训练效果的好坏，而评价w和b用在所有样本上的效果要用到成本函数：
 
-$$J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y{(i)})$$
+$$J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y^{(i)})$$
 
 ## 梯度下降
 
@@ -62,19 +62,21 @@ Logistic回归的算法流程为：
 
 ![](/img/in-post/nn&dl/note02-04.png)
 
+## python中的广播操作
 
+几种常用的广播操作：[boardcasting example][2]
 
+注意事项：
 
+![](/img/in-post/nn&dl/note02-05.png)
 
+![](/img/in-post/nn&dl/note02-06.png)
 
-
-
-
-
+尽量避免使用秩为1的矩阵。在不确定矩阵的形式时使用assert观察或者使用a.reshape()来调整。
 
 
 ---
 [1]:https://github.com/zanghyu/machine-learning/blob/master/vectorization.ipynb
-
+[2]:https://github.com/zanghyu/machine-learning/blob/master/boardcasting%20example.ipynb
 
 <script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
