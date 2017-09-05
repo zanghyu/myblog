@@ -14,7 +14,7 @@ tags:
 
 约定的符号表如下：
 
-![](/img/in-post/nn&dl/note02-01.jpg)
+![](/img/in-post/nn&dl/note02-01.png)
 
 ## Logistic Regression
 
@@ -56,7 +56,11 @@ Logistic回归的算法流程为：
 
 ## 向量化的优势
 
-上面的流程是使用了for循环，从i=1到i=m。事实上，向量化之后再计算会比直接使用for循环快的多(参照[向量化与非向量化时间对比][1])。
+上面的流程是使用了for循环，从i=1到i=m。事实上，向量化之后再计算会比直接使用for循环快的多(参照[向量化与非向量化时间对比][1])。这是因为像np.function这种函数在进行向量化计算时使用了SIMD进行并行化计算。GPU比CPU更加擅长SIMD计算，因此通常可扩展深度学习的实现在GPU上做。
+
+将logistic回归向量化之后为：
+
+![](/img/in-post/nn&dl/note02-04.png)
 
 
 
