@@ -74,9 +74,22 @@ Logistic回归的算法流程为：
 
 尽量避免使用秩为1的矩阵。在不确定矩阵的形式时使用assert观察或者使用a.reshape()来调整。
 
+## 作业中需要注意的部分
+
+#### 材料及作业
+[week2][3]
+
+#### 预处理
+Common steps for pre-processing a new dataset are:
+- Figure out the dimensions and shapes of the problem (m_train, m_test, num_px, ...)
+- Reshape the datasets such that each example is now a vector of size (num_px \* num_px \* 3, 1)
+- "Standardize" the data 
+
+
+
 
 ---
 [1]:https://github.com/zanghyu/machine-learning/blob/master/vectorization.ipynb
 [2]:https://github.com/zanghyu/machine-learning/blob/master/boardcasting%20example.ipynb
-
+[3]:https://github.com/zanghyu/machine-learning/tree/master/deeplearning.ai-master/1_Neural%20Networks%20and%20Deep%20Learning/week2
 <script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
