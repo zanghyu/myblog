@@ -1,8 +1,7 @@
 ---
 layout:     post
-title:      "PageRank算法&TrustRank算法"
-subtitle:   "PR&TR的介绍及实现"
-date:       2017-03-10 14:00:00
+title:      "关于word embedding"
+date:       2017-10-10 14:00:00
 author:     "ZhY"
 header-img: "img/post-bg-basic.jpg"
 header-mask: 0.3
