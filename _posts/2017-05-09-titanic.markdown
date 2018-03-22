@@ -1,0 +1,57 @@
+---
+layout:     post
+title:      "Kaggle titanic 笔记"
+date:       2017-05-9 10:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - kaggle笔记
+---
+
+# Kaggle titanic 笔记
+
+1.学会善用ipython notebook进行数据可视化和pandas进行数据处理
+
+2.观察数据集特征时候可以用quantile()进行分割。
+train_df.quantile([.75, .8])
+
+或者train_df.describe(percentiles=[.7,.8])
+
+3.每个属性集都应该找到其临界值以及特点
+
+4.train_df.describe(include=['O'])
+意思是查看Object的几个属性
+
+
+5.pd.read_csv()读取csv
+
+6.train_df.columns.values  查看属性名
+
+7.train_df.head()查看头部信息
+
+8.train_df.info()查看总体的信息
+
+9.train_df.dropna()丢弃掉所有nan的部分
+
+10.train_df.fillna(value=)补充nan为
+
+11.数据应当离散化
+
+12.grid = sns.FacetGrid(train_df, col='Survived')
+grid.map(plt.hist, 'Age', bins=20)
+这里的bins代表的是柱状图一共划分了20个长方形
+
+13.In [63]: s = pd.Series([1,3,5,np.nan,6,8],index=dates).shift(2)
+In [64]: s
+Out[64]: 
+2013-01-01   NaN
+2013-01-02   NaN
+2013-01-03     1
+2013-01-04     3
+2013-01-05     5
+2013-01-06   NaN
+Freq: D, dtype: float64
+
+shift操作就是左移数据和右移数据，大于0时为右移，小于0时为左移。若想用n个数据做预测，可以shift(-n)，得到的结果即为应得结果（也就是label标签）

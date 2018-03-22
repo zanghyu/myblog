@@ -1,0 +1,95 @@
+---
+layout:     post
+title:      "deeplearning.ai学习笔记02"
+subtitle:   "第二周"
+date:       2017-09-05 14:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 学习笔记
+---
+## 符号表
+
+约定的符号表如下：
+
+![](/img/in-post/nn&dl/note02-01.png)
+
+## Logistic Regression
+
+Logistic Regression和Linear Regression的关系：
+
+对于一个二分类问题(比如图片上是否是一只猫)，我们给出x，并求出$$\hat{y}$$,即该图片是猫的概率。对于Linear Regression来说，应满足：
+
+$$\hat{y} = (w^Tx+b) $$
+
+但是由于概率应该为0~1之间的一个数，而线性回归明显$$\hat{y}$$不是在0~1之间。因此我们将一个sigmoid函数，即：$$ \frac{1}{1+e^{-z}}$$，作用到$$w^Tx+b$$上。变为了：
+
+$$\hat{y} = \sigma(w^Tx+b)$$
+
+这种形式就是Logistic Regression。
+
+## 损失函数(误差函数)与成本函数
+
+在Logistic Regression中，我们想要知道训练的效果如何，因此要用损失函数来评价。损失函数不用$$\frac{1}{2}(\hat{y}-y)^2$$的原因是这个函数非凸。我们选择$$L(\hat{y},y) = - (ylog\hat{y}+(1-y)log(1-\hat{y}))$$作为损失函数。
+
+损失函数是评价对于单一样本来说训练效果的好坏，而评价w和b用在所有样本上的效果要用到成本函数：
+
+$$J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y^{(i)})$$
+
+## 梯度下降
+
+这里Logistic Regression的成本函数我们希望能够尽量小，因此我们要想办法到达全局最小值，这个时候可以用到梯度下降的办法。对于$$J(w,b)$$,每次更新：
+
+$$ w:=w-\alpha\frac{dJ(w,b)}{dw} $$
+
+$$ b:=b-\alpha\frac{dJ(w,b)}{db} $$
+
+在编程时，一般用$$dw$$代替$$\frac{dJ(w,b)}{dw}$$
+
+Logistic回归的算法流程为：
+
+![](/img/in-post/nn&dl/note02-02.jpg)
+
+![](/img/in-post/nn&dl/note02-03.jpg)
+
+## 向量化的优势
+
+上面的流程是使用了for循环，从i=1到i=m。事实上，向量化之后再计算会比直接使用for循环快的多(参照[向量化与非向量化时间对比][1])。这是因为像np.function这种函数在进行向量化计算时使用了SIMD进行并行化计算。GPU比CPU更加擅长SIMD计算，因此通常可扩展深度学习的实现在GPU上做。
+
+将logistic回归向量化之后为：
+
+![](/img/in-post/nn&dl/note02-04.png)
+
+## python中的广播操作
+
+几种常用的广播操作：[boardcasting example][2]
+
+注意事项：
+
+![](/img/in-post/nn&dl/note02-05.png)
+
+![](/img/in-post/nn&dl/note02-06.png)
+
+尽量避免使用秩为1的矩阵。在不确定矩阵的形式时使用assert观察或者使用a.reshape()来调整。
+
+## 作业中需要注意的部分
+
+#### 材料及作业
+[week2][3]
+
+#### 预处理
+Common steps for pre-processing a new dataset are:
+- Figure out the dimensions and shapes of the problem (m_train, m_test, num_px, ...)
+- Reshape the datasets such that each example is now a vector of size (num_px \* num_px \* 3, 1)
+- "Standardize" the data 
+
+
+
+
+---
+[1]:https://github.com/zanghyu/machine-learning/blob/master/vectorization.ipynb
+[2]:https://github.com/zanghyu/machine-learning/blob/master/boardcasting%20example.ipynb
+[3]:https://github.com/zanghyu/machine-learning/tree/master/deeplearning.ai-master/1_Neural%20Networks%20and%20Deep%20Learning/week2
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

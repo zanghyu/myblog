@@ -1,0 +1,36 @@
+---
+layout:     post
+title:      "deeplearning.ai学习笔记03"
+subtitle:   "第三周"
+date:       2017-09-06 14:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 学习笔记
+---
+
+## 神经网络的表示
+
+单层神经网络和两层神经网络如图所示：
+
+![](/img/in-post/nn&dl/note03-01.png)
+
+## 多层神经网络的算法
+
+![](/img/in-post/nn&dl/note03-02.png)
+
+## 激活函数
+
+几种常用的激活函数：
+
+![](/img/in-post/nn&dl/note03-03.png)
+
+激活函数分别为sigmoid  tanh  ReLU  LeakyReLU。
+
+这几种激活函数中，sigmoid效果差于tanh函数，因为tanh的均值在0附近，而sigmoid的均值在0.5左右，在下一层进行运算的时候sigmoid的值计算起来没有那么方便。但是这两种激活函数在接近于无穷的时候导数都接近为0，这样梯度下降的时候就会导致学习率很慢。ReLU的优点是不管数值多大，其导数都为常数值，方便了梯度下降。
+
+## 为什么要用激活函数
+
+如果没有激活函数，那么神经网络增加层次相当于依旧是线性叠加，和单层的神经网络没有区别。这也是为什么不用线性激活函数而用非线性激活函数的原因。
