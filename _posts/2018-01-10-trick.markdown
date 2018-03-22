@@ -1,0 +1,107 @@
+---
+layout:     post
+title:      "ALE和OpenAI Gym"
+date:       2018-03-21 12:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 技巧
+---
+
+## trick
+
+### bash命令
+
+**tail -f 可以动态看日志**
+
+**如果想要命令在前台运行**
+
+screen -S chatbot
+
+control+a+d
+
+screen -r chatbot
+
+
+### tensorflow中的打印信息问题
+
+import logging
+logging.basicConfig(level=logging.INFO)
+tf.app.run时候可能没有打印信息
+
+
+### 测试gpu是否正常运行
+
+'''
+with tf.device('/gpu:0'):
+	a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name='a')
+	b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name='b')
+	c = tf.matmul(a, b)
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+print sess.run(c)
+'''
+
+如果找不到设备，pip uninstall 再install就可以了
+
+### 关于itchat
+
+https://isaacchanghau.github.io/2017/09/10/Python-itchat包分析微信朋友/
+
+itchat用google接口，实现一个翻译的功能
+
+### 插件
+
+一个chrome插件one tab
+
+### python
+
+**python多个括号连写相当于继续传参数进去**
+
+**遍历目录**
+
+os.walk()可以查找一个目录下所有路径
+
+**yield关键字**
+
+带有yield的函数在python中被称为generator（生成器）。
+
+简单地讲，yield 的作用就是把一个函数变成一个 generator，带有 yield 的函数不再是一个普通函数，Python 解释器会将其视为一个 generator，调用 fab(5) 不会执行 fab 函数，而是返回一个 iterable 对象！在 for 循环执行时，每次循环都会执行 fab 函数内部的代码，执行到 yield b 时，fab 函数就返回一个迭代值，下次迭代时，代码从 yield b 的下一条语句继续执行，而函数的本地变量看起来和上次中断执行前是完全一样的，于是函数继续执行，直到再次遇到 yield。
+
+一句话来说就是通过使用yield来节省内存开销。
+	
+**能用xrange不要用range 因为xrange不返回list,而是返回一个iterable对象。**
+
+**取文件的名称**
+
+node_name = xls_file.split("/")[-1].split(".")[0]
+
+
+**sklearn的train_test_split()函数**中的random_state参数：
+
+用途是如果给定一个参数，则重复调用时随机序列相同，以方便测试模型性能。
+
+I would say, set the random_state to some fixed number while you test stuff, but then remove it in production if you need a random (and not a fixed) split.
+
+### 关于DNN中的网络模型的trick
+
+#### dropout   
+
+大的网络可以采用的防止过拟合的方法，简单来说就是以p的概率抑制某些神经元（将其激活值设置为0），注意dropout之后需要rescale（keras中已经实现？），即乘以1/(1-p)   效果最好是0.5的dropout。 Dropout的缺点是训练速度会慢2-3倍，但是不影响测试速度。
+
+http://blog.csdn.net/stdcoutzyx/article/details/49022443
+
+Hinton认为过拟合，可以通过阻止某些特征的协同作用来缓解。在每次训练的时候，每个神经元有百分之50的几率被移除，这样可以让一个神经元的出现不应该依赖于另外一个神经元。
+
+另外，我们可以把dropout理解为 模型平均。 假设我们要实现一个图片分类任务，我们设计出了100000个网络，这100000个网络，我们可以设计得各不相同，然后我们对这100000个网络进行训练，训练完后我们采用平均的方法，进行预测，这样肯定可以提高网络的泛化能力，或者说可以防止过拟合，因为这100000个网络，它们各不相同，可以提高网络的稳定性。而所谓的dropout我们可以这么理解，这n个网络，它们权值共享，并且具有相同的网络层数(这样可以大大减小计算量)。我们每次dropout后，网络模型都可以看成是整个网络的子网络。(需要注意的是如果采用dropout，训练时间大大延长，但是对测试阶段没影响)。
+
+#### batch normalization
+
+在神经网络训练时遇到收敛速度很慢，或梯度爆炸等无法训练的状况时可以尝试BN来解决。另外，在一般使用情况下也可以加入BN来加快训练速度，提高模型精度。总结起来就是BN解决了反向传播过程中的梯度问题（梯度消失和爆炸），同时使得不同scale的 w 整体更新步调更一致。
+
+### 关于word2vec中加载时占用内存太大的问题
+
+mmap : http://www.cnblogs.com/zhoujinyi/p/6062907.html
+
+memory map 内存映射，可以处理大文件读写问题     word2vec在load时有该参数，numpy中也有memmap相关函数

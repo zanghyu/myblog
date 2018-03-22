@@ -12,17 +12,17 @@ tags:
 
 ## ALE和OpenAI Gym的不同之处
 
-## 关于安装
+### 关于安装
 
 ALE似乎只有python2版本，而OpenAI Gym里面有封装好的ALE的接口。可以参见[atari_py][1]里面关于wrapper的文件。
 
-## 关于环境的初始化
+### 关于环境的初始化
 
-### action
+#### action
 
 即使用同样的breakout.bin的ROM文件，ALE中的最小action集合为4个(0,1,3,4)，然而OpenAI Gym的则是6个action(0,1,3,4,11,12)。
 
-### frame_skip
+#### frame_skip
 
 ALE的默认framskip是4，而OpenAI Gym的每个game都有不同的环境。比如Breakout-v0是在2到5之间stochastically的skipframe（参见gym/envs/atari/atari_env.py 下的def _step()) 而BreakoutDeterministic-v0是设置为4（参见gym/envs/__init__.py)。（stochastic的frameskip在很多情况下会比deterministic的效果好）
 
@@ -45,7 +45,7 @@ Frame Skip Is a Powerful Parameter for Learning to Play Atari - braylan.aaai15 �
 Dynamic frame skip deep q network 本地已下载
 
 
-### repeat_action_probability
+#### repeat_action_probability
 
 ALE环境和Gym环境的*-v0都设置repeat_action_probability为0.25，然而Gym的*-v3设置为0
 

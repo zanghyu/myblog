@@ -1,0 +1,61 @@
+---
+layout:     post
+title:      "nlp相关内容"
+date:       2017-12-01 12:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - nlp
+---
+
+
+### 生成对话Agent
+
+论文：[End-to-end_Adversarial_Learning_for_Generative_Conversational_Agents][1]
+
+![](/img/in-post/nlp相关/gca_01.png)
+
+![](/img/in-post/nlp相关/gca_03.png)
+
+** 模型说明： **
+
+该文章提出了一个新的对抗学习方法来生成对话Agent，该模型与seq2seq不一样的地方在于：假设Q和A具有同样的先验分布，将question和未生成结束的answer通过同样的embedding矩阵，再将它们各自的LSTM的结果concate到一起，通过Dense层得到结果值，这个值再次放到answer后面，进行下次迭代。在进行decode的时候，该文章采用了greedy decoding的办法进行。
+
+** 实验结果： **
+
+![](/img/in-post/nlp相关/gca_result.png)
+
+
+### 包含句间关系的Sentence Embedding
+
+论文：[DisSent: Sentence Representation Learning from Explicit Discourse Relations][2]
+
+** 模型说明： **
+
+该文章首先使用DisSent Model做sentence embedding:
+
+首先通过双向LSTM，然后前向和反向分别进入max-pooling层，得到的两个结果concate到一起即为句子的embedding。
+
+由于要得到句间关系，因此进行如下计算：
+
+![](/img/in-post/nlp相关/sentence_embedding_01.png)
+
+将表示句间关系的词向量化（比如句间关系有but,because,since 则向量化后为(3,))，将上面计算的结果通过softmax来计算在这个句间关系上的分布。
+
+** 实验结果： **
+
+![](/img/in-post/nlp相关/sentence_embedding_result.png)
+
+![](/img/in-post/nlp相关/sentence_embedding_result02.png)
+
+
+
+
+
+---
+[1]:https://www.researchgate.net/publication/321347271_End-to-end_Adversarial_Learning_for_Generative_Conversational_Agents?enrichId=rgreq-b23abc624b6e86934a49631058793fcf-XXX&enrichSource=Y292ZXJQYWdlOzMyMTM0NzI3MTtBUzo1NjkzNTA5Mzk5ODc5NzJAMTUxMjc1NTI1MDgxMg%3D%3D&el=1_x_2&_esc=publicationCoverPdf
+[2]:https://arxiv.org/pdf/1710.04334.pdf
+
+
