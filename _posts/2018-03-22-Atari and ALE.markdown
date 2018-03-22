@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "ALE和OpenAI Gym"
-date:       2017-03-21 12:00:00
+date:       2018-03-21 12:00:00
 author:     "ZhY"
 header-img: "img/post-bg-basic.jpg"
 header-mask: 0.3
