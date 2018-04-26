@@ -25,7 +25,7 @@ DQN的另一个问题是其训练时间过长，一般需要12-14天的时间在
 
 ## 模型
 
-![](img/in-post/darqn/1.png)
+![](/img/in-post/darqn/1.png)
 
 模型分为三个部分:CNN、attention、LSTM
 
@@ -41,15 +41,15 @@ attention接收到49个256维的feature之后输出其线性组合z_t,在LSTM中
 
 attention模型的结构为两个fc layer接一个softmax layer。
 
-![](img/in-post/darqn/2.png)
+![](/img/in-post/darqn/2.png)
 
 损失函数为：
 
-![](img/in-post/darqn/3.png)
+![](/img/in-post/darqn/3.png)
 
 为了优化损失函数，作者使用了q-learning的更新规则：
 
-![](img/in-post/darqn/4.png)
+![](/img/in-post/darqn/4.png)
 
 
 ## 实验
@@ -59,11 +59,11 @@ attention模型的结构为两个fc layer接一个softmax layer。
 
 实验结果显示在Seaquest,Gopher中DARQN的实验结果显著好于另外两种。
 
-![](img/in-post/darqn/5.png)
+![](/img/in-post/darqn/5.png)
 
 下图为实验中图片中的agent的注意点
 
-![](img/in-post/darqn/6.png)
+![](/img/in-post/darqn/6.png)
 
 **这里还提到一个细节就是作者比较了DARQN与DRQN和DQN的参数数量差别。DARQN在Seaquest中仅仅只有84w的参数，而DRQN和DQN都有169w的参数。不太理解作者是怎样比较得出的结果。**
 
