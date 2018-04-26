@@ -1,3 +1,16 @@
+---
+layout:     post
+title:      "Deep Attention Recurrent Q-Network"
+subtitle:   "DARQN"
+date:       2018-04-26 12:00:00
+author:     "ZhY"
+header-img: "img/post-bg-basic.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 论文笔记
+---
+
 # Deep Attention Recurrent Q-Network 阅读笔记
 
 ## 简介
